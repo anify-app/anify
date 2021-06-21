@@ -3,53 +3,77 @@ import { Document } from 'dynamoose/dist/Document'
 
 type AnimeTableAttributes = { id: string; entity: string }
 
+dynamoose.aws.sdk.config.update({
+  accessKeyId: process.env.AWSACCESSKEYID,
+  secretAccessKey: process.env.AWSSECRETACCESSEY,
+  region: process.env.AWSREGION,
+})
+
 export const schema = new dynamoose.Schema(
   {
     //@ts-expect-error we allow val to have AnimeTableAttributes
     PK: {
-      type: Object,
+      type: String,
       hashKey: true,
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
     //@ts-expect-error we allow val to have AnimeTableAttributes
     SK: {
-      type: Object,
+      type: String,
       rangeKey: true,
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
     //@ts-expect-error we allow val to have AnimeTableAttributes
     GSI1PK: {
-      type: Object,
+      type: String,
       index: {
         name: 'GSI1',
         rangeKey: 'GSI1SK',
       },
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
     //@ts-expect-error we allow val to have AnimeTableAttributes
     GSI1SK: {
-      type: Object,
+      type: String,
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
     //@ts-expect-error we allow val to have AnimeTableAttributes
     GSI2PK: {
-      type: Object,
+      type: String,
       index: {
         name: 'GSI2',
         rangeKey: 'GSI2SK',
       },
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
     //@ts-expect-error we allow val to have AnimeTableAttributes
     GSI2SK: {
-      type: Object,
+      type: String,
       set: (val: AnimeTableAttributes) => `${val.entity}#${val.id}`,
-      // "get": (val) =>  // split the string on # and return an object
+      get: (val: string) => ({
+        entity: val.split('#')[0],
+        id: val.split('#')[1],
+      }),
     },
   },
   {

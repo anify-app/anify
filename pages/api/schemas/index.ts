@@ -3,10 +3,10 @@ import { gql } from 'apollo-server-micro'
 export const schema = gql`
   type Anime {
     id: String!
-    title: String!
+    title: String
     genres: [String]
-    type: String!
-    status: String!
+    type: String
+    status: String
     rating: String
     episodes: Int
     mainImage: String
