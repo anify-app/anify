@@ -4,9 +4,9 @@ import { Document } from 'dynamoose/dist/Document'
 type AnimeTableAttributes = { id: string; entity: string }
 
 dynamoose.aws.sdk.config.update({
-  accessKeyId: process.env.AWSACCESSKEYID,
-  secretAccessKey: process.env.AWSSECRETACCESSEY,
-  region: process.env.AWSREGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
 })
 
 export const schema = new dynamoose.Schema(

@@ -31,6 +31,6 @@ export const schema = gql`
 
   type Query {
     getAnime(id: String!): Anime
-    getAllAnime: [Anime]
+    getAllAnime(first: Int, last: Int, skip: Int): [Anime]
   }
 `
