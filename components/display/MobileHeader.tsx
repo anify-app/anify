@@ -25,7 +25,9 @@ const MobileHeader = () => {
         <NavigationModalCard>
           <HeaderRow>
             <SectionHeader>NAVIGATION</SectionHeader>
-            <CloseButton onClick={() => setIsNavigationModalOpen(false)} />
+            <CloseButton onClick={() => setIsNavigationModalOpen(false)}>
+              <CloseIcon />
+            </CloseButton>
           </HeaderRow>
           <Navigation>
             <NavigationLink href="/" active={router.pathname === '/'}>
@@ -55,7 +57,9 @@ const NavigationModalCard = tw.div`relative bg-white rounded-lg p-5 shadow-2xl`
 
 const HeaderRow = tw.div`flex justify-between items-center`
 
-const CloseButton = tw(HiX)`text-xl text-gray-500`
+const CloseButton = tw.button``
+
+const CloseIcon = tw(HiX)`text-xl text-gray-500`
 
 const SectionHeader = tw.h2`text-gray-500 font-semibold`
 

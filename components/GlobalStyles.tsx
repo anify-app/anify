@@ -7,6 +7,10 @@ const CustomStyles = createGlobalStyle`
     -webkit-tap-highlight-color: ${theme`colors.green.500`};
     ${tw`antialiased bg-gray-50 text-gray-900`}
   }
+
+  button, a {
+    ${tw`focus:outline-none`}
+  }
 `
 
 const GlobalStyles = () => (
