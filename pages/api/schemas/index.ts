@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-micro'
 
 export const schema = gql`
   type Anime {
-    id: String!
+    slug: String!
     title: String
     genres: [String]
     type: String
@@ -30,7 +30,7 @@ export const schema = gql`
   }
 
   type Query {
-    getAnime(id: String!): Anime
+    getAnime(slug: String!): Anime
     getAllAnime(first: Int, last: Int, skip: Int): [Anime]
   }
 `

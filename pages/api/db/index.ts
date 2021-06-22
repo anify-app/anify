@@ -99,6 +99,7 @@ export class AnimeEntity extends Document {
   mainImage: string | undefined
   season: string | undefined
   airedStart: string | undefined
+  slug!: string
   airedEnd: string | undefined
   duration: string | undefined
   producers: Array<string> = []
