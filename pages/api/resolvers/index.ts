@@ -28,7 +28,7 @@ export const resolvers = {
     getAnime: async (_: null, args: QueryGetAnimeArgs) => {
       try {
         const res = await AnimeRepository.get({
-          PK: `ANIME#${args.id}`,
+          PK: `ANIME#${args.slug}`,
           SK: 'VERSION#v1',
         })
 
