@@ -4,5 +4,6 @@ generates:
   typings/graphql/types.d.ts:
     plugins:
       - 'typescript'
+      - 'typescript-operations'
     config:
       noExport: true
