@@ -4,6 +4,7 @@ import Logo from './Logo'
 import { HiMenu, HiX, HiHome, HiMoon } from 'react-icons/hi'
 import { useRouter } from 'next/router'
 import { Link } from 'elements'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const MobileHeader = () => {
   const router = useRouter()
@@ -21,26 +22,50 @@ const MobileHeader = () => {
           <NavigationButton />
         </NavigationButtonContainer>
       </Container>
-      <NavigationModalContainer isVisible={isNavigationModalOpen}>
-        <NavigationModalCard>
-          <HeaderRow>
-            <SectionHeader>NAVIGATION</SectionHeader>
-            <CloseButton onClick={() => setIsNavigationModalOpen(false)}>
-              <CloseIcon />
-            </CloseButton>
-          </HeaderRow>
-          <Navigation>
-            <NavigationLink href="/" active={router.pathname === '/'}>
-              <HiHome />
-              &nbsp;&nbsp;Home
-            </NavigationLink>
-            <NavigationLink href="/anime" active={router.pathname === '/anime'}>
-              <HiMoon />
-              &nbsp;&nbsp;Anime
-            </NavigationLink>
-          </Navigation>
-        </NavigationModalCard>
-      </NavigationModalContainer>
+      <AnimatePresence>
+        {isNavigationModalOpen ? (
+          <NavigationModalContainer
+            initial={{
+              opacity: 0,
+              scale: 0.97,
+            }}
+            animate={{
+              opacity: isNavigationModalOpen ? 1 : 0,
+              scale: isNavigationModalOpen ? 1 : 0.95,
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.97,
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            <NavigationModalCard>
+              <HeaderRow>
+                <SectionHeader layout>NAVIGATION</SectionHeader>
+                <CloseButton
+                  layout
+                  onClick={() => setIsNavigationModalOpen(false)}
+                >
+                  <CloseIcon />
+                </CloseButton>
+              </HeaderRow>
+              <Navigation>
+                <NavigationLink href="/" active={router.pathname === '/'}>
+                  <HiHome />
+                  &nbsp;&nbsp;Home
+                </NavigationLink>
+                <NavigationLink
+                  href="/anime"
+                  active={router.pathname === '/anime'}
+                >
+                  <HiMoon />
+                  &nbsp;&nbsp;Anime
+                </NavigationLink>
+              </Navigation>
+            </NavigationModalCard>
+          </NavigationModalContainer>
+        ) : null}
+      </AnimatePresence>
     </>
   )
 }
@@ -57,11 +82,11 @@ const NavigationModalCard = tw.div`relative bg-white rounded-lg p-5 shadow-2xl`
 
 const HeaderRow = tw.div`flex justify-between items-center`
 
-const CloseButton = tw.button``
+const CloseButton = tw(motion.button)`cursor-default`
 
 const CloseIcon = tw(HiX)`text-xl text-gray-500`
 
-const SectionHeader = tw.h2`text-gray-500 font-semibold`
+const SectionHeader = tw(motion.h2)`text-gray-500 font-semibold`
 
 const Navigation = tw.nav`mt-4 grid gap-3`
 
@@ -70,11 +95,6 @@ const NavigationLink = styled(Link)<{ active: boolean }>`
   ${({ active }) => (active ? tw`text-green-500` : tw`text-gray-900`)}
 `
 
-const NavigationModalContainer = styled.div<{
-  isVisible: boolean
-}>`
-  ${({ isVisible }) => [
-    tw`w-full p-3`,
-    isVisible ? tw`absolute lg:hidden` : tw`hidden`,
-  ]}
+const NavigationModalContainer = styled(motion.div)`
+  ${[tw`w-full p-3 absolute lg:hidden`, 'transform-origin: top right;']}
 `
