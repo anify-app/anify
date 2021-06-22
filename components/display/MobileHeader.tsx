@@ -51,15 +51,6 @@ const NavigationButtonContainer = tw.div`px-4 py-1.5 cursor-pointer  bg-green-50
 
 const NavigationButton = tw(HiMenu)`text-xl`
 
-const NavigationModalContainer = styled.div<{
-  isVisible: boolean
-}>`
-  ${({ isVisible }) => [
-    tw`w-full p-3`,
-    isVisible ? tw`absolute lg:hidden` : tw`hidden`,
-  ]}
-`
-
 const NavigationModalCard = tw.div`relative bg-white rounded-lg p-5 shadow-2xl`
 
 const HeaderRow = tw.div`flex justify-between items-center`
@@ -73,4 +64,13 @@ const Navigation = tw.nav`mt-4 grid gap-3`
 const NavigationLink = styled(Link)<{ active: boolean }>`
   ${tw`flex items-center font-semibold`}
   ${({ active }) => (active ? tw`text-green-500` : tw`text-gray-900`)}
+`
+
+const NavigationModalContainer = styled.div<{
+  isVisible: boolean
+}>`
+  ${({ isVisible }) => [
+    tw`w-full p-3`,
+    isVisible ? tw`absolute lg:hidden` : tw`hidden`,
+  ]}
 `
