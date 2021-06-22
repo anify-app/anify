@@ -1,6 +1,7 @@
 import Sider from './Sider'
 import tw from 'twin.macro'
 import Head from 'next/head'
+import MobileHeader from './MobileHeader'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -28,6 +29,7 @@ const Layout = ({
 
       <Container>
         <Sider />
+        <MobileHeader />
         <Content>{children}</Content>
       </Container>
     </>
@@ -36,6 +38,6 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`flex bg-gray-50`
+const Container = tw.div`flex flex-col lg:flex-row bg-gray-50`
 
 const Content = tw.div`p-14 py-10`
