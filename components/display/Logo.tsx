@@ -18,7 +18,7 @@ const Text = styled.h1<{
   size: LogoProps['size']
 }>`
   ${({ size }) => [
-    tw`font-bold text-gray-900`,
+    tw`font-bold text-gray-900 select-none`,
     size === 'large' && tw`text-4xl`,
     size === 'medium' && tw`text-3xl`,
     size === 'small' && tw`text-2xl`,

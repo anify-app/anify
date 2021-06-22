@@ -1,7 +1,9 @@
-import Sider from './Sider'
+import { useState } from 'react'
 import tw from 'twin.macro'
 import Head from 'next/head'
-import MobileHeader from './MobileHeader'
+import { AnimatePresence } from 'framer-motion'
+import Header from './Header'
+import SideNavigation from './SideNavigation'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -14,6 +16,9 @@ const Layout = ({
   title = 'Anime Next App',
   description = '',
 }: LayoutProps) => {
+  const [isSideNavigationOpen, setIsSideNavigationOpen] =
+    useState<boolean>(false)
+
   return (
     <>
       <Head>
@@ -28,9 +33,20 @@ const Layout = ({
       </Head>
 
       <Container>
-        <Sider />
-        <MobileHeader />
-        <Content>{children}</Content>
+        <Header
+          onHamburgerClick={() =>
+            setIsSideNavigationOpen(!isSideNavigationOpen)
+          }
+        />
+
+        <Content>
+          <>
+            {children}
+            <AnimatePresence>
+              {isSideNavigationOpen ? <SideNavigation /> : null}
+            </AnimatePresence>
+          </>
+        </Content>
       </Container>
     </>
   )
@@ -38,6 +54,6 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`flex flex-col lg:flex-row bg-gray-50`
+const Container = tw.div`bg-gray-50 h-screen overflow-hidden`
 
-const Content = tw.div`p-14 py-10`
+const Content = tw.div`relative h-full p-14 py-10 overflow-y-auto`
