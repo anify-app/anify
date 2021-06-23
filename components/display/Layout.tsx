@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import tw from 'twin.macro'
 import Head from 'next/head'
-import { AnimatePresence } from 'framer-motion'
 import Header from './Header'
 import SideNavigation from './SideNavigation'
 
@@ -16,7 +15,7 @@ const Layout = ({
   title = 'Anime Next App',
   description = '',
 }: LayoutProps) => {
-  const [isSideNavigationOpen, setIsSideNavigationOpen] =
+  const [isSideNavigationExpanded, setIsSideNavigationExpanded] =
     useState<boolean>(false)
 
   return (
@@ -35,18 +34,16 @@ const Layout = ({
       <Container>
         <Header
           onHamburgerClick={() =>
-            setIsSideNavigationOpen(!isSideNavigationOpen)
+            setIsSideNavigationExpanded(!isSideNavigationExpanded)
           }
         />
 
-        <Content>
+        <ContentContainer>
           <>
-            {children}
-            <AnimatePresence>
-              {isSideNavigationOpen ? <SideNavigation /> : null}
-            </AnimatePresence>
+            <SideNavigation isExpanded={isSideNavigationExpanded} />
+            <Content>{children}</Content>
           </>
-        </Content>
+        </ContentContainer>
       </Container>
     </>
   )
@@ -56,4 +53,6 @@ export default Layout
 
 const Container = tw.div`bg-gray-50 h-screen overflow-hidden`
 
-const Content = tw.div`relative h-full p-14 py-10 overflow-y-auto`
+const ContentContainer = tw.div`relative flex h-full`
+
+const Content = tw.div`relative h-full p-14 py-10 overflow-y-auto flex-grow`
