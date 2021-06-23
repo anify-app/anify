@@ -1,70 +1,115 @@
 import tw, { styled } from 'twin.macro'
 import { Link } from 'elements'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { HiHome, HiMoon } from 'react-icons/hi'
 import { useRouter } from 'next/router'
+import { useWindowSize } from 'react-use'
+import { Tooltip } from '@chakra-ui/tooltip'
 
 type SideNavigationProps = {
   isExpanded: boolean
+  onClose: () => void
 }
 
-const SideNavigation = ({ isExpanded }: SideNavigationProps) => {
+const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
   const router = useRouter()
+  const { width } = useWindowSize()
+
+  const isMobile = width < 768
+  const collapsedWidth = isMobile ? 0 : 70
+  const expandedWidth = isMobile ? '90%' : 300
 
   return (
     <>
       <Container
+        initial={{
+          width: collapsedWidth,
+        }}
         animate={{
-          width: isExpanded ? 300 : 70,
+          width: isExpanded ? expandedWidth : collapsedWidth,
+          // visible if expanded or on desktop
+          opacity: isExpanded || !isMobile ? 1 : 0,
         }}
         transition={{ duration: 0.05 }}
-        style={{ width: 70 }}
       >
         <Navigation>
-          <NavigationItem href="/" active={router.pathname === '/'}>
-            <HomeIcon />
-            {isExpanded ? (
-              <NavigationRouteText
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.1 }}
+          <Tooltip
+            label="Home"
+            placement="right"
+            hasArrow
+            isDisabled={isMobile || isExpanded}
+          >
+            {/* span needed here to pass Tooltip children ref */}
+            <span>
+              <NavigationItem href="/" active={router.pathname === '/'}>
+                <HomeIcon />
+
+                <AnimatePresence>
+                  {isExpanded ? (
+                    <NavigationRouteText
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ delay: 0.1, duration: 0.1 }}
+                    >
+                      &nbsp;&nbsp;&nbsp;&nbsp;Home
+                    </NavigationRouteText>
+                  ) : null}
+                </AnimatePresence>
+              </NavigationItem>
+            </span>
+          </Tooltip>
+          <Tooltip
+            label="Anime"
+            placement="right"
+            hasArrow
+            isDisabled={isMobile || isExpanded}
+          >
+            {/* span needed here to pass Tooltip children ref */}
+            <span>
+              <NavigationItem
+                href="/anime"
+                active={router.pathname === '/anime'}
               >
-                &nbsp;&nbsp;&nbsp;&nbsp;Home
-              </NavigationRouteText>
-            ) : null}
-          </NavigationItem>
-          <NavigationItem href="/anime" active={router.pathname === '/anime'}>
-            <AnimeIcon />
-            {isExpanded ? (
-              <NavigationRouteText
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.1 }}
-              >
-                &nbsp;&nbsp;&nbsp;&nbsp;Anime
-              </NavigationRouteText>
-            ) : null}
-          </NavigationItem>
+                <AnimeIcon />
+                <AnimatePresence>
+                  {isExpanded ? (
+                    <NavigationRouteText
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ delay: 0.1, duration: 0.1 }}
+                    >
+                      &nbsp;&nbsp;&nbsp;&nbsp;Anime
+                    </NavigationRouteText>
+                  ) : null}
+                </AnimatePresence>
+              </NavigationItem>
+            </span>
+          </Tooltip>
         </Navigation>
       </Container>
 
-      {isExpanded ? (
-        <Background
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 0.2,
-          }}
-          exit={{
-            opacity: 0,
-          }}
-          transition={{ duration: 0.2 }}
-        />
-      ) : null}
+      <AnimatePresence>
+        {isExpanded ? (
+          <Background
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 0.2,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+          />
+        ) : null}
+      </AnimatePresence>
 
       {/* spacer so content can account for the spacer width since it's position absolute */}
-      <Spacer />
+      {isMobile ? null : <Spacer />}
     </>
   )
 }
@@ -73,7 +118,7 @@ export default SideNavigation
 
 const Container = tw(
   motion.div,
-)`bg-white absolute top-0 left-0 h-full z-10 transition-all`
+)`bg-white absolute top-0 left-0 h-full z-20 transition-all overflow-hidden md:overflow-visible`
 
 const Navigation = tw.nav``
 
@@ -97,7 +142,7 @@ const NavigationRouteText = styled(motion.a)``
 
 const Background = tw(
   motion.div,
-)`absolute w-full h-full top-0 left-0 bg-gray-900 opacity-20`
+)`absolute w-full h-full top-0 left-0 bg-gray-900 opacity-20 z-10`
 
 const Spacer = styled.div`
   ${tw`h-full`}
