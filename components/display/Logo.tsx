@@ -7,7 +7,7 @@ type LogoProps = {
 const Logo = ({ size = 'large' }: LogoProps) => {
   return (
     <Text size={size}>
-      neku<Period>.</Period>
+      anime<Period>.</Period>
     </Text>
   )
 }

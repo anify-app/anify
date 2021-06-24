@@ -23,7 +23,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
     setIsSettingsMenuOpen(false)
   })
 
-  // don't show the UI until mounted on the client
+  // don't render dependent theme UI until mounted on the client
   useEffect(() => setMounted(true), [])
 
   // sync tailwind and chakra UI
