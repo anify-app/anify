@@ -31,6 +31,12 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
     if (resolvedTheme !== colorMode) toggleColorMode()
   }, [])
 
+  const toggleDarkMode = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+    toggleColorMode()
+  }
+
   return (
     <>
       <Container>
@@ -61,12 +67,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
                   duration: 0.1,
                 }}
               >
-                <SettingsMenuItem
-                  onClick={() => {
-                    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-                    toggleColorMode()
-                  }}
-                >
+                <SettingsMenuItem onMouseDown={toggleDarkMode}>
                   <SettingsMenuText>Dark Mode</SettingsMenuText>
                   {mounted ? (
                     <Switch
@@ -88,7 +89,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
 export default Header
 
 const Container = styled.div`
-  ${tw`relative bg-white dark:bg-black grid grid-cols-3 py-4 px-6 items-center transition-colors`}
+  ${tw`relative bg-white dark:bg-black grid py-4 px-6 items-center transition-colors`}
   grid-template-columns: auto 1fr 1fr;
 
   @media (max-width: 768px) {
@@ -108,8 +109,8 @@ const SettingsButton = tw(HiCog)`h-6 w-6 cursor-pointer hover:text-green-500`
 
 const SettingsMenu = tw(
   motion.div,
-)`absolute z-30 top-full right-0 bg-white py-2 shadow-lg`
+)`absolute z-30 top-full right-0 bg-white dark:bg-gray-800 py-2 shadow-lg transition-colors`
 
-const SettingsMenuItem = tw.div`flex justify-between items-center py-2 px-8 hover:bg-gray-200 cursor-pointer select-none`
+const SettingsMenuItem = tw.div`flex justify-between items-center py-2 px-8 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer select-none transition-colors`
 
-const SettingsMenuText = tw.p`text-gray-900 mr-6`
+const SettingsMenuText = tw.p`mr-6`

@@ -10,7 +10,6 @@ const theme = extendTheme({
     green: colors.emerald,
     gray: colors.gray,
   },
-  global: undefined,
 })
 
 export default theme
