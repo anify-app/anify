@@ -1,12 +1,36 @@
-import tw from 'twin.macro'
+import { useState, useEffect, useRef } from 'react'
+import tw, { styled } from 'twin.macro'
+import { HiMenu, HiCog } from 'react-icons/hi'
+import { Switch, useColorMode } from '@chakra-ui/react'
+import { useTheme } from 'next-themes'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useClickAway } from 'react-use'
 import Logo from './Logo'
-import { HiMenu } from 'react-icons/hi'
 
 type HeaderTypes = {
   onHamburgerClick: () => void
 }
 
 const Header = ({ onHamburgerClick }: HeaderTypes) => {
+  const settingsMenuRef = useRef(null)
+  const [mounted, setMounted] = useState(false)
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
+  const { colorMode, toggleColorMode } = useColorMode()
+
+  // close settings menu if clicked outside
+  useClickAway(settingsMenuRef, () => {
+    setIsSettingsMenuOpen(false)
+  })
+
+  // don't show the UI until mounted on the client
+  useEffect(() => setMounted(true), [])
+
+  // sync tailwind and chakra UI
+  useEffect(() => {
+    if (resolvedTheme !== colorMode) toggleColorMode()
+  }, [])
+
   return (
     <>
       <Container>
@@ -16,7 +40,46 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
           <Logo size="medium" />
         </LogoContainer>
 
-        <div />
+        <Settings ref={settingsMenuRef}>
+          <SettingsButton
+            onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
+          />
+
+          <AnimatePresence>
+            {isSettingsMenuOpen ? (
+              <SettingsMenu
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                exit={{
+                  opacity: 0,
+                }}
+                transition={{
+                  duration: 0.1,
+                }}
+              >
+                <SettingsMenuItem
+                  onClick={() => {
+                    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+                    toggleColorMode()
+                  }}
+                >
+                  <SettingsMenuText>Dark Mode</SettingsMenuText>
+                  {mounted ? (
+                    <Switch
+                      isChecked={resolvedTheme === 'dark'}
+                      colorScheme="green"
+                      size="sm"
+                    />
+                  ) : null}
+                </SettingsMenuItem>
+              </SettingsMenu>
+            ) : null}
+          </AnimatePresence>
+        </Settings>
       </Container>
     </>
   )
@@ -24,10 +87,29 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
 
 export default Header
 
-const Container = tw.div`bg-white grid grid-cols-3 md:flex py-4 px-6 items-center `
+const Container = styled.div`
+  ${tw`relative bg-white dark:bg-black grid grid-cols-3 py-4 px-6 items-center transition-colors`}
+  grid-template-columns: auto 1fr 1fr;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+`
 
 const HamburgerButton = tw(
   HiMenu,
-)`text-2xl mr-6 cursor-pointer hover:text-green-500`
+)`h-6 w-6 mr-7 cursor-pointer hover:text-green-500`
 
-const LogoContainer = tw.div`text-center`
+const LogoContainer = tw.div`text-center md:text-left`
+
+const Settings = tw.div`justify-self-end`
+
+const SettingsButton = tw(HiCog)`h-6 w-6 cursor-pointer hover:text-green-500`
+
+const SettingsMenu = tw(
+  motion.div,
+)`absolute z-30 top-full right-0 bg-white py-2 shadow-lg`
+
+const SettingsMenuItem = tw.div`flex justify-between items-center py-2 px-8 hover:bg-gray-200 cursor-pointer select-none`
+
+const SettingsMenuText = tw.p`text-gray-900 mr-6`

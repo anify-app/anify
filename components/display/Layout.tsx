@@ -39,13 +39,11 @@ const Layout = ({
         />
 
         <ContentContainer>
-          <>
-            <SideNavigation
-              isExpanded={isSideNavigationExpanded}
-              onClose={() => setIsSideNavigationExpanded(false)}
-            />
-            <Content>{children}</Content>
-          </>
+          <SideNavigation
+            isExpanded={isSideNavigationExpanded}
+            onClose={() => setIsSideNavigationExpanded(false)}
+          />
+          <Content>{children}</Content>
         </ContentContainer>
       </Container>
     </>
@@ -54,7 +52,7 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`bg-gray-50 h-screen overflow-hidden`
+const Container = tw.div`h-screen overflow-hidden`
 
 const ContentContainer = tw.div`relative flex h-full`
 

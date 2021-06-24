@@ -118,23 +118,24 @@ export default SideNavigation
 
 const Container = tw(
   motion.div,
-)`bg-white absolute top-0 left-0 h-full z-20 transition-all overflow-hidden md:overflow-visible`
+)`bg-white dark:bg-black absolute top-0 left-0 h-full z-20 transition-all overflow-hidden md:overflow-visible`
 
 const Navigation = tw.nav``
 
-const HomeIcon = tw(HiHome)`h-5 w-5 flex-shrink-0`
+const HomeIcon = tw(HiHome)`h-6 w-6 flex-shrink-0`
 
-const AnimeIcon = tw(HiMoon)`h-5 w-5 flex-shrink-0`
+const AnimeIcon = tw(HiMoon)`h-6 w-6 flex-shrink-0`
 
 const NavigationItem = styled(Link)<{ active: boolean }>`
-  ${tw`flex items-center px-6 h-12`}
+  ${tw`flex items-center px-6 h-12 transition-colors`}
+
   ${({ active }) =>
     active
-      ? tw`text-gray-900 bg-gray-200 hover:bg-gray-100 font-semibold`
-      : tw`text-gray-900 bg-white hover:bg-gray-100 `}
+      ? tw`bg-gray-200 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 font-semibold`
+      : tw`bg-white dark:bg-black hover:bg-gray-100 dark:hover:bg-gray-900`}
   
   svg {
-    ${({ active }) => (active ? tw`text-green-400` : tw`text-gray-900`)}
+    ${({ active }) => (active ? tw`text-green-400` : tw``)}
   }
 `
 

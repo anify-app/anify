@@ -7,7 +7,7 @@ type LogoProps = {
 const Logo = ({ size = 'large' }: LogoProps) => {
   return (
     <Text size={size}>
-      Anime<Period>.</Period>
+      neku<Period>.</Period>
     </Text>
   )
 }
@@ -18,7 +18,7 @@ const Text = styled.h1<{
   size: LogoProps['size']
 }>`
   ${({ size }) => [
-    tw`font-bold text-gray-900 select-none`,
+    tw`font-bold text-gray-900 dark:text-gray-50 select-none transition-colors`,
     size === 'large' && tw`text-4xl`,
     size === 'medium' && tw`text-3xl`,
     size === 'small' && tw`text-2xl`,
