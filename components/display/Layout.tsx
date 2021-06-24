@@ -56,4 +56,4 @@ const Container = tw.div`h-screen overflow-hidden`
 
 const ContentContainer = tw.div`relative flex h-full`
 
-const Content = tw.div`relative h-full px-6 md:px-14 py-8 md:py-10 overflow-y-auto flex-grow`
+const Content = tw.div`relative h-full px-6 md:px-14 py-8 md:py-10 overflow-y-auto flex-grow bg-gray-50 dark:bg-gray-900 transition-colors`
