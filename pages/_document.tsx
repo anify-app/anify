@@ -1,13 +1,5 @@
-import Document, {
-  DocumentContext,
-  Html,
-  Head,
-  Main,
-  NextScript,
-} from 'next/document'
+import Document, { DocumentContext } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import { ColorModeScript } from '@chakra-ui/react'
-
 class MyDocument extends Document {
   // avoid ugly Flash Of Unstyled Content (FOUC)
   static async getInitialProps(ctx: DocumentContext) {
