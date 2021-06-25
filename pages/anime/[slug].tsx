@@ -34,11 +34,20 @@ const AnimePage = ({ anime }: AnimePageProps) => {
           <TitleDescriptionContainer>
             <Title>{anime.title}</Title>
             <Description>
-              {anime.description
+              {(anime.description
                 ? _.truncate(anime.description, {
                     length: expanded ? Infinity : 500,
-                  })
-                : null}
+                    // split the description into an array of paragraphs
+                  }).split('\n')
+                : ['']
+              )
+                // use line breaks between paragraphs
+                .map((text) => (
+                  <>
+                    {text}
+                    <br />
+                  </>
+                ))}
             </Description>
 
             {!expanded ? (
