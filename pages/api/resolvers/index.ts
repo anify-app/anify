@@ -12,6 +12,6 @@ export const resolvers = {
       _: null,
       args: QueryGetAnimeArgs,
       { dataSources }: DataSources,
-    ) => dataSources.dynamodb.getAnime,
+    ) => dataSources.dynamodb.getAnime(args),
   },
 }
