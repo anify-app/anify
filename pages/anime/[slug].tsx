@@ -137,21 +137,21 @@ export const getStaticProps: GetStaticProps<AnimePageProps, { slug: string }> =
     return { props: { anime } }
   }
 
-const CoverContainer = tw.div`relative h-52!`
+const CoverContainer = tw.div`relative h-80! md:h-52!`
 
 const CoverOverlay = tw.div`absolute top-0 left-0 w-full h-full z-10 bg-gradient-to-t from-gray-900 opacity-0 dark:opacity-70 transition-opacity`
 
-const Cover = tw(Image)` h-52! min-h-0! m-0!`
+const Cover = tw(Image)`h-80! md:h-52! min-h-0! m-0!`
 
-const FirstRow = tw.div`flex items-start`
+const FirstRow = tw.div`flex items-center md:items-start flex-col md:flex-row`
 
-const MainImage = tw.img`-mt-48 z-10 mr-14 flex-shrink-0`
+const MainImage = tw.img`-mt-80 md:-mt-48 z-10 mr-0 md:mr-14 flex-shrink-0`
 
 const Content = tw.div`m-auto max-w-6xl px-6 py-8 md:pb-10 md:pt-6`
 
-const TitleDescriptionContainer = tw.div`relative`
+const TitleDescriptionContainer = tw.div`relative mt-4 md:mt-0`
 
-const Title = tw.h1`text-3xl font-semibold mb-2`
+const Title = tw.h1`text-4xl md:text-3xl font-semibold mb-2 text-center md:text-left`
 
 const Description = tw.p`text-gray-700 dark:text-gray-300`
 
@@ -159,4 +159,4 @@ const ExpandControls = tw(
   motion.div,
 )`absolute flex justify-center items-end bottom-0 left-0 w-full`
 
-const ExpandText = tw.p`font-bold text-gray-600 dark:text-gray-300 bg-gradient-to-t from-gray-50 dark:from-gray-900 h-16 p-2 w-full text-center flex items-end justify-center cursor-pointer`
+const ExpandText = tw.p`font-bold text-gray-600 dark:text-gray-300 bg-gradient-to-t from-gray-50 dark:from-gray-900 h-32 md:h-16 p-2 w-full text-center flex items-end justify-center cursor-pointer`
