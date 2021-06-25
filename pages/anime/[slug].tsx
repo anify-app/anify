@@ -1,18 +1,61 @@
+import { useState } from 'react'
 import { Layout } from 'components/display'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { gql } from '@apollo/client'
 import client from 'apollo/client'
+import tw from 'twin.macro'
+import { Divider } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
+import _ from 'lodash'
+import Image from 'next/image'
 
 type AnimePageProps = {
   anime: Anime
 }
 
 const AnimePage = ({ anime }: AnimePageProps) => {
+  const [expanded, setExpanded] = useState<boolean>(false)
+
   return (
-    <Layout>
-      {anime.mainImage ? <img src={anime.mainImage} /> : null}
-      <h1>{anime.title}</h1>
-      <p>{anime.description}</p>
+    <Layout title={`${anime.title} - Anime Next App`} noPadding>
+      <CoverContainer>
+        <CoverOverlay />
+        <Cover
+          src="https://i.redd.it/tfqiq1aqjx351.png"
+          layout="fill"
+          objectFit="cover"
+        />
+      </CoverContainer>
+
+      <Content>
+        <FirstRow>
+          {anime.mainImage ? <MainImage src={anime.mainImage} /> : null}
+
+          <TitleDescriptionContainer>
+            <Title>{anime.title}</Title>
+            <Description>
+              {anime.description
+                ? _.truncate(anime.description, {
+                    length: expanded ? Infinity : 500,
+                  })
+                : null}
+            </Description>
+
+            {!expanded ? (
+              <ExpandControls
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: expanded ? 0 : 1 }}
+                transition={{ duration: 0.1 }}
+              >
+                <ExpandText onClick={() => setExpanded(true)}>
+                  Read More
+                </ExpandText>
+              </ExpandControls>
+            ) : null}
+          </TitleDescriptionContainer>
+        </FirstRow>
+        <Divider p={4} />
+      </Content>
     </Layout>
   )
 }
@@ -20,6 +63,20 @@ const AnimePage = ({ anime }: AnimePageProps) => {
 export default AnimePage
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // use mock-data for local development
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      paths: [
+        {
+          params: {
+            slug: 'One-Piece',
+          },
+        },
+      ],
+      fallback: true,
+    }
+  }
+
   const data = await client.query<{ getAllAnime: Query['getAllAnime'] }>({
     query: gql`
       query getAllAnime {
@@ -79,3 +136,27 @@ export const getStaticProps: GetStaticProps<AnimePageProps, { slug: string }> =
 
     return { props: { anime } }
   }
+
+const CoverContainer = tw.div`relative h-52!`
+
+const CoverOverlay = tw.div`absolute top-0 left-0 w-full h-full z-10 bg-gradient-to-t from-gray-900 opacity-0 dark:opacity-70 transition-opacity`
+
+const Cover = tw(Image)` h-52! min-h-0! m-0!`
+
+const FirstRow = tw.div`flex items-start`
+
+const MainImage = tw.img`-mt-48 z-10 mr-14 flex-shrink-0`
+
+const Content = tw.div`m-auto max-w-6xl px-6 py-8 md:pb-10 md:pt-6`
+
+const TitleDescriptionContainer = tw.div`relative`
+
+const Title = tw.h1`text-3xl font-semibold mb-2`
+
+const Description = tw.p`text-gray-700 dark:text-gray-300`
+
+const ExpandControls = tw(
+  motion.div,
+)`absolute flex justify-center items-end bottom-0 left-0 w-full`
+
+const ExpandText = tw.p`font-bold text-gray-600 dark:text-gray-300 bg-gradient-to-t from-gray-50 dark:from-gray-900 h-16 p-2 w-full text-center flex items-end justify-center cursor-pointer`

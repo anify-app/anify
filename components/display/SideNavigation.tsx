@@ -69,7 +69,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
             <span>
               <NavigationItem
                 href="/anime"
-                active={router.pathname === '/anime'}
+                active={router.pathname.startsWith('/anime')}
               >
                 <AnimeIcon />
                 <AnimatePresence>
@@ -97,7 +97,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
               opacity: 0,
             }}
             animate={{
-              opacity: 0.2,
+              opacity: 0.3,
             }}
             exit={{
               opacity: 0,
@@ -118,7 +118,7 @@ export default SideNavigation
 
 const Container = tw(
   motion.div,
-)`bg-white dark:bg-black absolute top-0 left-0 h-full z-20 transition-all overflow-hidden md:overflow-visible`
+)`bg-white dark:bg-black absolute top-0 left-0 h-full z-30 transition-all overflow-hidden md:overflow-visible`
 
 const Navigation = tw.nav``
 
@@ -143,9 +143,9 @@ const NavigationRouteText = styled(motion.a)``
 
 const Background = tw(
   motion.div,
-)`absolute w-full h-full top-0 left-0 bg-gray-900 opacity-20 z-10`
+)`absolute w-full h-full top-0 left-0 bg-gray-900 z-20`
 
 const Spacer = styled.div`
-  ${tw`h-full`}
+  ${tw`h-full flex-shrink-0`}
   width: 70px;
 `

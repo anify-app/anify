@@ -11,6 +11,14 @@ const CustomStyles = createGlobalStyle`
   button, a {
     ${tw`focus:outline-none`}
   }
+
+  * {
+    ${tw`transition-colors`}
+  }
+
+  hr {
+    box-sizing: border-box !important;
+  }
 `
 
 const GlobalStyles = () => (
