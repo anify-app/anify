@@ -15,6 +15,6 @@ module.exports = {
     return config
   },
   images: {
-    domains: ['i.redd.it'],
+    domains: ['cdn.myanimelist.net'],
   },
 }
