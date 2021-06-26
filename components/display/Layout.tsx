@@ -54,13 +54,13 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`h-screen overflow-hidden`
+const Container = tw.div`flex flex-col h-screen overflow-hidden overflow-y-auto`
 
-const ContentContainer = tw.div`relative flex h-full`
+const ContentContainer = tw.div`relative flex flex-grow`
 
 const Content = styled.div<{ noPadding: boolean }>`
   ${({ noPadding }) => [
-    tw`relative h-full  overflow-y-auto flex-grow bg-gray-50 dark:bg-gray-900 transition-colors`,
+    tw`relative h-full flex-grow bg-gray-50 dark:bg-gray-900 transition-colors`,
     !noPadding && tw`px-6 md:px-14 py-8 md:py-10`,
   ]}
 `

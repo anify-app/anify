@@ -9,8 +9,9 @@ import { motion } from 'framer-motion'
 import _ from 'lodash'
 import Image from 'next/image'
 import { format } from 'date-fns'
-import { StatusBadge, GenreTag } from 'components/anime'
+import { StatusBadge, GenreTag, SeasonTag, TypeBadge } from 'components/anime'
 import { isPresent } from 'utils'
+import { Tag } from '@chakra-ui/react'
 
 type AnimePageProps = {
   anime: Anime
@@ -46,7 +47,11 @@ const AnimePage = ({ anime }: AnimePageProps) => {
           <TitleDescriptionContainer>
             <TitleContainer>
               <Title>{anime.title}</Title>
-              {anime.status ? <StatusBadge status={anime.status} /> : null}
+              <Badges>
+                {anime.type ? <TypeBadge type={anime.type} /> : null}
+                &nbsp;
+                {anime.status ? <StatusBadge status={anime.status} /> : null}
+              </Badges>
             </TitleContainer>
             <Genres>
               {anime.genres
@@ -86,23 +91,97 @@ const AnimePage = ({ anime }: AnimePageProps) => {
           </TitleDescriptionContainer>
         </FirstRow>
         <Divider p={4} />
-        {anime.airedStart ? (
-          <p>
-            Aired: {format(new Date(anime.airedStart), 'PPP')} to{' '}
-            {anime.airedEnd ? format(new Date(anime.airedEnd), 'PPP') : '-'}
-          </p>
-        ) : null}
-        {anime.duration ? <p>Duration: {anime.duration}</p> : null}
-        {anime.episodes ? <p>Episodes: {anime.episodes}</p> : null}
-        {anime.licensors ? <p>Licensors: {anime.licensors}</p> : null}
-        {anime.producers ? <p>Producers: {anime.producers}</p> : null}
-        {anime.studios ? <p>Studios: {anime.studios}</p> : null}
-        {anime.season && anime.airedStart ? (
-          <p>
-            Premiered: {anime.season}{' '}
-            {format(new Date(anime.airedStart), 'yyy')}
-          </p>
-        ) : null}
+
+        <MoreInformation>
+          <DetailsColumn>
+            {anime.airedStart ? (
+              <Label>
+                <Field>Aired</Field>
+                <Value>
+                  {format(new Date(anime.airedStart), 'PPP')}
+                  {anime.type !== 'movie'
+                    ? ` to ${
+                        anime.airedEnd
+                          ? format(new Date(anime.airedEnd), 'PPP')
+                          : '-'
+                      }`
+                    : null}
+                </Value>
+              </Label>
+            ) : null}
+            {anime.season && anime.airedStart ? (
+              <Label>
+                <Field>Premiered</Field>
+                <TagList>
+                  <SeasonTag>
+                    {`${anime.season} ${format(
+                      new Date(anime.airedStart),
+                      'yyy',
+                    )}`}
+                  </SeasonTag>
+                </TagList>
+              </Label>
+            ) : null}
+            {anime.episodes ? (
+              <Label>
+                <Field>Episodes</Field>
+                <Value>{anime.episodes}</Value>
+              </Label>
+            ) : null}
+            {anime.duration ? (
+              <Label>
+                <Field>Duration</Field>
+                <Value>{anime.duration}</Value>
+              </Label>
+            ) : null}
+            {anime.sourceMaterialType ? (
+              <Label>
+                <Field>Source Material</Field>
+                <Value>{anime.sourceMaterialType}</Value>
+              </Label>
+            ) : null}
+            {anime.licensors ? (
+              <Label>
+                <Field>Licensors</Field>
+                <TagList>
+                  {anime.licensors.map((licensor) => (
+                    <>
+                      <Tag size="sm">{licensor}</Tag>
+                      &nbsp;
+                    </>
+                  ))}
+                </TagList>
+              </Label>
+            ) : null}
+            {anime.producers ? (
+              <Label>
+                <Field>Producers</Field>
+                <TagList>
+                  {anime.producers.map((producer) => (
+                    <>
+                      <Tag size="sm">{producer}</Tag>
+                      &nbsp;
+                    </>
+                  ))}
+                </TagList>
+              </Label>
+            ) : null}
+            {anime.studios ? (
+              <Label>
+                <Field>Studios</Field>
+                <TagList>
+                  {anime.studios.map((studio) => (
+                    <>
+                      <Tag size="sm">{studio}</Tag>
+                      &nbsp;
+                    </>
+                  ))}
+                </TagList>
+              </Label>
+            ) : null}
+          </DetailsColumn>
+          <Placeholder />
+        </MoreInformation>
       </Content>
     </Layout>
   )
@@ -200,13 +279,15 @@ const MainImageContainer = tw.div`flex-shrink-0 -mt-80! md:-mt-36! mr-0! md:mr-1
 
 const Content = tw.div`m-auto max-w-6xl px-6 py-8 md:pb-10 md:pt-6`
 
-const TitleDescriptionContainer = tw.div`relative mt-4 md:mt-0`
+const TitleDescriptionContainer = tw.div`relative mt-3 md:mt-0`
 
 const TitleContainer = tw.div`flex items-center justify-center md:justify-start flex-col md:flex-row mb-1`
 
-const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-2 md:mb-1`
+const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-0 md:mb-0.5`
 
-const Genres = tw.div`mt-4 md:mt-0 mb-1 leading-9`
+const Badges = tw.div``
+
+const Genres = tw.div`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left`
 
 const Description = tw.p`text-gray-700 dark:text-gray-300`
 
@@ -215,6 +296,20 @@ const ExpandControls = tw(
 )`absolute flex justify-center items-end bottom-0 left-0 w-full`
 
 const ExpandText = tw.p`font-bold text-gray-600 dark:text-gray-300 bg-gradient-to-t from-gray-50 dark:from-gray-900 h-32 md:h-16 p-2 w-full text-center flex items-end justify-center cursor-pointer`
+
+const MoreInformation = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8`
+
+const DetailsColumn = tw.div`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded`
+
+const Placeholder = tw.div`col-span-1 md:col-span-3 xl:col-span-2`
+
+const Label = tw.div`leading-5 mb-3`
+
+const Field = tw.p`font-bold text-sm`
+
+const Value = tw.span`text-gray-500 dark:text-gray-400 text-sm`
+
+const TagList = tw.div`mt-1 -mb-1 leading-7`
 
 const CoverNoise = styled.div`
   ${tw`absolute top-0 left-0 w-full h-full opacity-40`}
