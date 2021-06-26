@@ -65,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx next lint"
+      "pre-commit": "npm run lint"
     }
   }
 }
