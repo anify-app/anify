@@ -18,8 +18,8 @@ export class Agolia extends DataSource {
   }
 
   async searchAnime({ query }: QuerySearchAnimeArgs) {
-    return this.index
-      .search(query, { hitsPerPage: 200 })
-      .then(({ hits }) => hits)
+    const results = await this.index.search(query, { hitsPerPage: 200 })
+
+    return results.hits
   }
 }
