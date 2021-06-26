@@ -8,6 +8,9 @@ import { Divider } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import _ from 'lodash'
 import Image from 'next/image'
+import { format } from 'date-fns'
+import { StatusBadge, GenreTag } from 'components/anime'
+import { isPresent } from 'utils'
 
 type AnimePageProps = {
   anime: Anime
@@ -22,12 +25,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
         <CoverNoise />
         {anime.mainImage ? (
           <CoverImageContainer>
-            <Image
-              src={anime.mainImage}
-              layout="fill"
-              objectFit="cover"
-              objectPosition=""
-            />
+            <Image src={anime.mainImage} layout="fill" objectFit="cover" />
           </CoverImageContainer>
         ) : null}
       </CoverContainer>
@@ -46,7 +44,17 @@ const AnimePage = ({ anime }: AnimePageProps) => {
           ) : null}
 
           <TitleDescriptionContainer>
-            <Title>{anime.title}</Title>
+            <TitleContainer>
+              <Title>{anime.title}</Title>
+              {anime.status ? <StatusBadge status={anime.status} /> : null}
+            </TitleContainer>
+            <Genres>
+              {anime.genres
+                ? anime.genres
+                    .filter(isPresent)
+                    .map((genre) => <GenreTag>{genre}</GenreTag>)
+                : null}
+            </Genres>
             <Description>
               {(anime.description
                 ? _.truncate(anime.description, {
@@ -78,6 +86,23 @@ const AnimePage = ({ anime }: AnimePageProps) => {
           </TitleDescriptionContainer>
         </FirstRow>
         <Divider p={4} />
+        {anime.airedStart ? (
+          <p>
+            Aired: {format(new Date(anime.airedStart), 'PPP')} to{' '}
+            {anime.airedEnd ? format(new Date(anime.airedEnd), 'PPP') : '-'}
+          </p>
+        ) : null}
+        {anime.duration ? <p>Duration: {anime.duration}</p> : null}
+        {anime.episodes ? <p>Episodes: {anime.episodes}</p> : null}
+        {anime.licensors ? <p>Licensors: {anime.licensors}</p> : null}
+        {anime.producers ? <p>Producers: {anime.producers}</p> : null}
+        {anime.studios ? <p>Studios: {anime.studios}</p> : null}
+        {anime.season && anime.airedStart ? (
+          <p>
+            Premiered: {anime.season}{' '}
+            {format(new Date(anime.airedStart), 'yyy')}
+          </p>
+        ) : null}
       </Content>
     </Layout>
   )
@@ -171,13 +196,17 @@ const CoverImageContainer = tw.div`h-80! md:h-52! min-h-0! m-0! filter blur-3xl`
 
 const FirstRow = tw.div`flex items-center md:items-start flex-col md:flex-row`
 
-const MainImageContainer = tw.div`flex-shrink-0 -mt-80! md:-mt-48! mr-0! md:mr-14! z-10`
+const MainImageContainer = tw.div`flex-shrink-0 -mt-80! md:-mt-36! mr-0! md:mr-14! z-10`
 
 const Content = tw.div`m-auto max-w-6xl px-6 py-8 md:pb-10 md:pt-6`
 
 const TitleDescriptionContainer = tw.div`relative mt-4 md:mt-0`
 
-const Title = tw.h1`text-4xl md:text-3xl font-semibold mb-2 text-center md:text-left`
+const TitleContainer = tw.div`flex items-center justify-center md:justify-start flex-col md:flex-row mb-1`
+
+const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-2 md:mb-1`
+
+const Genres = tw.div`mt-4 md:mt-0 mb-1 leading-9`
 
 const Description = tw.p`text-gray-700 dark:text-gray-300`
 
