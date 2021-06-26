@@ -52,7 +52,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
               {anime.genres
                 ? anime.genres
                     .filter(isPresent)
-                    .map((genre) => <GenreTag>{genre}</GenreTag>)
+                    .map((genre, key) => <GenreTag key={key}>{genre}</GenreTag>)
                 : null}
             </Genres>
             <Description>
