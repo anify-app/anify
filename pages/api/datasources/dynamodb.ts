@@ -5,7 +5,6 @@ import { ScanResponse } from 'dynamoose/dist/DocumentRetriever'
 import { ModelType } from 'dynamoose/dist/General'
 import { Schema } from 'dynamoose/dist/Schema'
 import { DataSource } from 'apollo-datasource'
-import animeMapper from '../resolvers/mappers/animeMapper'
 
 type AnimeTableAttributes = { id: string; entity: string }
 
@@ -140,22 +139,20 @@ export class DynamoDB extends DataSource {
         throw new UserInputError('You may only have one argument')
 
       if (args.first) {
-        const res: ScanResponse<AnimeEntity> = await this.animeRepository
+        const animes: ScanResponse<AnimeEntity> = await this.animeRepository
           .scan('slug')
           .exists()
           .limit(args.first)
           .exec()
 
-        return res.map((anime) => animeMapper(anime))
+        return animes
       }
 
-      const res: ScanResponse<AnimeEntity> = await this.animeRepository
+      const animes: ScanResponse<AnimeEntity> = await this.animeRepository
         .scan('slug')
         .exists()
         .all(100)
         .exec()
-
-      const animes = res.map((anime) => animeMapper(anime))
 
       // filter conditions
       if (args.skip) return animes.slice(args.skip - 1, undefined)
@@ -168,12 +165,10 @@ export class DynamoDB extends DataSource {
   }
   async getAnime(args: QueryGetAnimeArgs) {
     try {
-      const res = await this.animeRepository.get({
+      const anime = await this.animeRepository.get({
         PK: `ANIME#${args.slug}`,
         SK: 'VERSION#v1',
       })
-
-      const anime = animeMapper(res)
 
       return anime
     } catch (error) {

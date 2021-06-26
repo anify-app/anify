@@ -1,5 +1,6 @@
+import { Agolia } from '../datasources/agolia'
 import { DynamoDB } from '../datasources/dynamodb'
-type DataSources = { dataSources: { dynamodb: DynamoDB } }
+type DataSources = { dataSources: { dynamodb: DynamoDB; agolia: Agolia } }
 
 export const resolvers = {
   Query: {
@@ -13,5 +14,10 @@ export const resolvers = {
       args: QueryGetAnimeArgs,
       { dataSources }: DataSources,
     ) => dataSources.dynamodb.getAnime(args),
+    searchAnime: async (
+      _: null,
+      args: QuerySearchAnimeArgs,
+      { dataSources }: DataSources,
+    ) => dataSources.agolia.searchAnime(args),
   },
 }
