@@ -5,6 +5,7 @@ const animeMapper = (animeEntity: AnimeEntity): Anime => {
 
   const anime = { ...animeEntity }
 
+  // @ts-expect-error
   return anime
 }
 
