@@ -29,7 +29,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
   // sync tailwind and chakra UI
   useEffect(() => {
     if (resolvedTheme !== colorMode) toggleColorMode()
-  }, [])
+  }, [colorMode, resolvedTheme, toggleColorMode])
 
   const toggleDarkMode = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()

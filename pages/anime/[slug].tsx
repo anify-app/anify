@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Layout } from 'components/display'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { gql } from '@apollo/client'
@@ -26,7 +26,12 @@ const AnimePage = ({ anime }: AnimePageProps) => {
         <CoverNoise />
         {anime.mainImage ? (
           <CoverImageContainer>
-            <Image src={anime.mainImage} layout="fill" objectFit="cover" />
+            <Image
+              src={anime.mainImage}
+              layout="fill"
+              objectFit="cover"
+              alt=""
+            />
           </CoverImageContainer>
         ) : null}
       </CoverContainer>
@@ -40,6 +45,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 width={225}
                 height={350}
                 layout="fixed"
+                alt={`${anime.title} poster.`}
               />
             </MainImageContainer>
           ) : null}
@@ -57,7 +63,9 @@ const AnimePage = ({ anime }: AnimePageProps) => {
               {anime.genres
                 ? anime.genres
                     .filter(isPresent)
-                    .map((genre, key) => <GenreTag key={key}>{genre}</GenreTag>)
+                    .map((genre, index) => (
+                      <GenreTag key={`genre-${index}`}>{genre}</GenreTag>
+                    ))
                 : null}
             </Genres>
             <Description>
@@ -69,11 +77,11 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 : ['']
               )
                 // use line breaks between paragraphs
-                .map((text) => (
-                  <>
+                .map((text, index) => (
+                  <React.Fragment key={`description-${index}`}>
                     {text}
                     <br />
-                  </>
+                  </React.Fragment>
                 ))}
             </Description>
 
@@ -122,7 +130,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </TagList>
               </Label>
             ) : null}
-            {anime.episodes ? (
+            {anime.episodes && anime.type !== 'movie' ? (
               <Label>
                 <Field>Episodes</Field>
                 <Value>{anime.episodes}</Value>
@@ -140,41 +148,41 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 <Value>{anime.sourceMaterialType}</Value>
               </Label>
             ) : null}
-            {anime.licensors ? (
+            {anime.licensors?.length ? (
               <Label>
                 <Field>Licensors</Field>
                 <TagList>
-                  {anime.licensors.map((licensor) => (
-                    <>
+                  {anime.licensors.map((licensor, index) => (
+                    <React.Fragment key={`licensor-${index}`}>
                       <Tag size="sm">{licensor}</Tag>
                       &nbsp;
-                    </>
+                    </React.Fragment>
                   ))}
                 </TagList>
               </Label>
             ) : null}
-            {anime.producers ? (
+            {anime.producers?.length ? (
               <Label>
                 <Field>Producers</Field>
                 <TagList>
-                  {anime.producers.map((producer) => (
-                    <>
+                  {anime.producers.map((producer, index) => (
+                    <React.Fragment key={`producer-${index}`}>
                       <Tag size="sm">{producer}</Tag>
                       &nbsp;
-                    </>
+                    </React.Fragment>
                   ))}
                 </TagList>
               </Label>
             ) : null}
-            {anime.studios ? (
+            {anime.studios?.length ? (
               <Label>
                 <Field>Studios</Field>
                 <TagList>
-                  {anime.studios.map((studio) => (
-                    <>
+                  {anime.studios.map((studio, index) => (
+                    <React.Fragment key={`studio-${index}`}>
                       <Tag size="sm">{studio}</Tag>
                       &nbsp;
-                    </>
+                    </React.Fragment>
                   ))}
                 </TagList>
               </Label>
