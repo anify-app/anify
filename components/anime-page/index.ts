@@ -4,6 +4,7 @@ import SeasonTag from './SeasonTag'
 import TypeBadge from './TypeBadge'
 import CoverImage from './CoverImage'
 import MoreInformationColumn from './MoreInformationColumn'
+import MainInformation from './MainInformation'
 
 export {
   StatusBadge,
@@ -12,4 +13,5 @@ export {
   TypeBadge,
   CoverImage,
   MoreInformationColumn,
+  MainInformation,
 }
