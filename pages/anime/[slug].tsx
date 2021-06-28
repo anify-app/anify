@@ -10,7 +10,6 @@ import {
   MoreInformationColumn,
 } from 'components/anime-page'
 import { DynamoDB } from 'services/dynamodb'
-
 type AnimePageProps = {
   anime: Anime | null
 }
