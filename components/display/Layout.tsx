@@ -9,6 +9,7 @@ type LayoutProps = {
   title?: string
   description?: string
   noPadding?: boolean
+  shouldFullyCollapse?: boolean
 }
 
 const Layout = ({
@@ -16,6 +17,7 @@ const Layout = ({
   title = 'Anime Next App',
   description = '',
   noPadding = false,
+  shouldFullyCollapse = false,
 }: LayoutProps) => {
   const [isSideNavigationExpanded, setIsSideNavigationExpanded] =
     useState<boolean>(false)
@@ -39,7 +41,9 @@ const Layout = ({
           <SideNavigation
             isExpanded={isSideNavigationExpanded}
             onClose={() => setIsSideNavigationExpanded(false)}
+            shouldFullyCollapse={shouldFullyCollapse}
           />
+
           <Content noPadding={noPadding}>{children}</Content>
         </ContentContainer>
       </Container>

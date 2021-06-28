@@ -21,7 +21,11 @@ const AnimePage = ({ anime }: AnimePageProps) => {
   const [expanded, setExpanded] = useState<boolean>(false)
 
   return (
-    <Layout title={`${anime.title} - Anime Next App`} noPadding>
+    <Layout
+      title={`${anime.title} - Anime Next App`}
+      noPadding
+      shouldFullyCollapse
+    >
       <CoverContainer>
         <CoverNoise />
         {anime.mainImage ? (

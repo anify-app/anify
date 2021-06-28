@@ -9,14 +9,19 @@ import { Tooltip } from '@chakra-ui/tooltip'
 type SideNavigationProps = {
   isExpanded: boolean
   onClose: () => void
+  shouldFullyCollapse?: boolean
 }
 
-const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
+const SideNavigation = ({
+  isExpanded,
+  onClose,
+  shouldFullyCollapse,
+}: SideNavigationProps) => {
   const router = useRouter()
   const { width } = useWindowSize()
 
   const isMobile = width < 768
-  const collapsedWidth = isMobile ? 0 : 70
+  const collapsedWidth = isMobile || shouldFullyCollapse ? 0 : 70
   const expandedWidth = isMobile ? '90%' : 300
 
   return (
@@ -28,7 +33,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
         animate={{
           width: isExpanded ? expandedWidth : collapsedWidth,
           // visible if expanded or on desktop
-          opacity: isExpanded || !isMobile ? 1 : 0,
+          opacity: isExpanded || !(isMobile || shouldFullyCollapse) ? 1 : 0,
         }}
         transition={{ duration: 0.05 }}
       >
@@ -37,7 +42,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
             label="Home"
             placement="right"
             hasArrow
-            isDisabled={isMobile || isExpanded}
+            isDisabled={isMobile || shouldFullyCollapse || isExpanded}
           >
             {/* span needed here to pass Tooltip children ref */}
             <span>
@@ -63,7 +68,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
             label="Anime"
             placement="right"
             hasArrow
-            isDisabled={isMobile || isExpanded}
+            isDisabled={isMobile || shouldFullyCollapse || isExpanded}
           >
             {/* span needed here to pass Tooltip children ref */}
             <span>
@@ -109,7 +114,7 @@ const SideNavigation = ({ isExpanded, onClose }: SideNavigationProps) => {
       </AnimatePresence>
 
       {/* spacer so content can account for the spacer width since it's position absolute */}
-      {isMobile ? null : <Spacer />}
+      {shouldFullyCollapse || isMobile ? null : <Spacer />}
     </>
   )
 }
@@ -120,7 +125,7 @@ const Container = tw(
   motion.div,
 )`bg-white dark:bg-black absolute top-0 left-0 h-full z-30 transition-all overflow-hidden md:overflow-visible`
 
-const Navigation = tw.nav``
+const Navigation = tw.nav`overflow-hidden`
 
 const HomeIcon = tw(HiHome)`h-6 w-6 flex-shrink-0`
 
