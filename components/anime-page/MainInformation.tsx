@@ -103,17 +103,19 @@ const MainImageSkeleton = tw(
 
 const TitleDescriptionContainer = tw.div`relative mt-3 md:mt-0 w-full`
 
-const TitleSkeleton = tw(
-  Skeleton,
-)`flex items-center justify-center md:justify-start flex-col md:flex-row mb-2 h-8`
+const TitleSkeleton = styled(Skeleton)`
+  ${tw`flex items-center justify-center md:justify-start flex-col md:flex-row mb-2 h-8`}
+  ${({ isLoaded }) => (isLoaded ? tw`h-auto` : tw`h-8`)}
+`
 
 const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-0 md:mb-0.5`
 
 const Badges = tw.div``
 
-const GenreSkeleton = tw(
-  Skeleton,
-)`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left h-6`
+const GenreSkeleton = styled(Skeleton)`
+  ${tw`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left h-6`}
+  ${({ isLoaded }) => (isLoaded ? tw`h-auto` : tw`h-6`)}
+`
 
 const DescriptionSkeleton = styled(Skeleton)<{ isLoaded: boolean }>`
   ${tw`text-gray-700 dark:text-gray-300`}
