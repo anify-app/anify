@@ -12,7 +12,6 @@ import { format } from 'date-fns'
 import { StatusBadge, GenreTag, SeasonTag, TypeBadge } from 'components/anime'
 import { isPresent } from 'utils'
 import { Tag, Skeleton } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 
 type AnimePageProps = {
   anime: Anime | null
