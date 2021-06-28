@@ -20,20 +20,20 @@ export class AnimeEntity extends Document {
   GSI1SK: AnimeTableAttributes | undefined
   GSI2PK: AnimeTableAttributes | undefined
   GSI2SK: AnimeTableAttributes | undefined
-  title: string = ''
-  type: string = ''
+  title!: string | null
+  type!: string | null
   genres: Array<string> = []
-  status: string = ''
-  sourceMaterialType: string = ''
-  rating: string | undefined
-  episodes: number | undefined
-  description: string | undefined
-  mainImage: string | undefined
-  season: string | undefined
-  airedStart: string | undefined
+  status!: string | null
+  sourceMaterialType!: string | null
+  rating!: string | null
+  episodes!: number | null
+  description!: string | null
+  mainImage!: string | null
+  season!: string | null
+  airedStart!: string | null
   slug!: string
-  airedEnd: string | undefined
-  duration: string | undefined
+  airedEnd!: string | null
+  duration!: string | null
   producers: Array<string> = []
   licensors: Array<string> = []
   studios: Array<string> = []
@@ -41,8 +41,10 @@ export class AnimeEntity extends Document {
     name: string
     url: string
   }> = []
-  englishTitle: string | undefined
-  japaneseTitle: string | undefined
+  englishTitle!: string | null
+  createdAt!: number
+  updatedAt!: number
+  japaneseTitle!: string | null
   synonyms: Array<string> = []
 }
 
@@ -145,7 +147,7 @@ export class DynamoDB extends DataSource {
           .limit(args.first)
           .exec()
 
-        return animes
+        return animes.map((anime) => this.animeMapper(anime))
       }
 
       const animes: ScanResponse<AnimeEntity> = await this.animeRepository
@@ -155,10 +157,16 @@ export class DynamoDB extends DataSource {
         .exec()
 
       // filter conditions
-      if (args.skip) return animes.slice(args.skip - 1, undefined)
-      if (args.last) return animes.slice(animes.length - args.last, undefined)
+      if (args.skip)
+        return animes
+          .slice(args.skip - 1, undefined)
+          .map((anime) => this.animeMapper(anime))
+      if (args.last)
+        return animes
+          .slice(animes.length - args.last, undefined)
+          .map((anime) => this.animeMapper(anime))
 
-      return animes
+      return animes.map((anime) => this.animeMapper(anime))
     } catch (error) {
       throw error
     }
@@ -170,9 +178,26 @@ export class DynamoDB extends DataSource {
         SK: 'VERSION#v1',
       })
 
-      return anime
+      return this.animeMapper(anime)
     } catch (error) {
       throw error
     }
+  }
+  animeMapper(animeEntity: AnimeEntity): Anime {
+    const {
+      PK,
+      SK,
+      GSI1PK,
+      GSI1SK,
+      GSI2PK,
+      GSI2SK,
+      createdAt,
+      updatedAt,
+      ...rest
+    } = animeEntity
+
+    const anime = { ...rest }
+
+    return anime
   }
 }

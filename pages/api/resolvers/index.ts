@@ -1,5 +1,5 @@
-import { Agolia } from '../datasources/agolia'
-import { DynamoDB } from '../datasources/dynamodb'
+import { Agolia } from 'services/agolia'
+import { DynamoDB } from 'services/dynamodb'
 type DataSources = { dataSources: { dynamodb: DynamoDB; agolia: Agolia } }
 
 export const resolvers = {

@@ -1,17 +1,15 @@
 import React from 'react'
 import { Layout } from 'components/display'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { gql } from '@apollo/client'
-import client from 'apollo/client'
 import tw from 'twin.macro'
 import { Divider } from '@chakra-ui/react'
 import _ from 'lodash'
-
 import {
   MainInformation,
   CoverImage,
   MoreInformationColumn,
 } from 'components/anime-page'
+import { DynamoDB } from 'services/dynamodb'
 
 type AnimePageProps = {
   anime: Anime | null
@@ -63,17 +61,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   }
 
-  const data = await client.query<{ getAllAnime: Query['getAllAnime'] }>({
-    query: gql`
-      query getAllAnime {
-        getAllAnime {
-          slug
-        }
-      }
-    `,
+  const dynamo = new DynamoDB()
+
+  const animes = await dynamo.getAllAnime({
+    first: null,
+    last: null,
+    skip: null,
   })
 
-  const paths = data.data.getAllAnime
+  const paths = animes
     // TODO: remove this once our database data is good
     .filter((item) => item.slug)
     .map((item) => ({
@@ -87,49 +83,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps<AnimePageProps, { slug: string }> =
   async ({ params }) => {
-    const data = await client
-      .query<{ getAnime: Query['getAnime'] }>({
-        query: gql`
-          query getAnime($slug: String!) {
-            getAnime(slug: $slug) {
-              title
-              season
-              description
-              episodes
-              englishTitle
-              type
-              status
-              duration
-              airedStart
-              airedEnd
-              mainImage
-              japaneseTitle
-              sourceMaterialType
-              synonyms
-              studios
-              genres
-              producers
-              licensors
-              sources {
-                name
-                url
-              }
-            }
-          }
-        `,
-        variables: {
-          slug: params?.slug || '',
-        },
-      })
-      .catch(() => {
-        return {
-          data: {
-            getAnime: null,
-          },
-        }
-      })
+    const dynamo = new DynamoDB()
 
-    const anime = data.data.getAnime
+    const data = await dynamo.getAnime({ slug: params?.slug || '' })
+
+    const anime = data
 
     return {
       props: { anime },

@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-micro'
 import { schema } from './schemas'
 import { resolvers } from './resolvers'
-import { DynamoDB } from './datasources/dynamodb'
-import { Agolia } from './datasources/agolia'
+import { DynamoDB } from 'services/dynamodb'
+import { Agolia } from 'services/agolia'
 
 const apolloServer = new ApolloServer({
   typeDefs: schema,
