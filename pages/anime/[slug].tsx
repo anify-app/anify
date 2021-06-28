@@ -11,85 +11,99 @@ import Image from 'next/image'
 import { format } from 'date-fns'
 import { StatusBadge, GenreTag, SeasonTag, TypeBadge } from 'components/anime'
 import { isPresent } from 'utils'
-import { Tag } from '@chakra-ui/react'
+import { Tag, Skeleton } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 type AnimePageProps = {
-  anime: Anime
+  anime: Anime | null
 }
 
 const AnimePage = ({ anime }: AnimePageProps) => {
   const [expanded, setExpanded] = useState<boolean>(false)
 
+  if (anime === null) return <p>404</p>
+
+  const isLoaded = anime !== undefined
+
   return (
     <Layout
-      title={`${anime.title} - Anime Next App`}
+      title={`${anime?.title || 'Loading'} - Anime Next App`}
       noPadding
       shouldFullyCollapse
     >
       <CoverContainer>
         <CoverNoise />
-        {anime.mainImage ? (
+        <Skeleton isLoaded={isLoaded}>
           <CoverImageContainer>
-            <Image
-              src={anime.mainImage}
-              layout="fill"
-              objectFit="cover"
-              alt=""
-            />
+            {anime?.mainImage ? (
+              <Image
+                src={anime.mainImage}
+                layout="fill"
+                objectFit="cover"
+                alt=""
+              />
+            ) : null}
           </CoverImageContainer>
-        ) : null}
+        </Skeleton>
       </CoverContainer>
 
       <Content>
         <FirstRow>
-          {anime.mainImage ? (
-            <MainImageContainer>
-              <Image
-                src={anime.mainImage}
-                width={225}
-                height={350}
-                layout="fixed"
-                alt={`${anime.title} poster.`}
-              />
-            </MainImageContainer>
-          ) : null}
+          <MainImageContainer>
+            <Skeleton isLoaded={isLoaded} opacity={1} width={225} height={350}>
+              {anime?.mainImage ? (
+                <Image
+                  src={anime.mainImage}
+                  width={225}
+                  height={350}
+                  layout="fixed"
+                  alt={`${anime?.title} poster.`}
+                />
+              ) : null}
+            </Skeleton>
+          </MainImageContainer>
 
           <TitleDescriptionContainer>
-            <TitleContainer>
-              <Title>{anime.title}</Title>
+            <TitleSkeleton isLoaded={isLoaded}>
+              <Title>{anime?.title}</Title>
+
               <Badges>
-                {anime.type ? <TypeBadge type={anime.type} /> : null}
+                {anime?.type ? <TypeBadge type={anime.type} /> : null}
                 &nbsp;
-                {anime.status ? <StatusBadge status={anime.status} /> : null}
+                {anime?.status ? <StatusBadge status={anime.status} /> : null}
               </Badges>
-            </TitleContainer>
-            <Genres>
-              {anime.genres
+            </TitleSkeleton>
+
+            <GenreSkeleton isLoaded={isLoaded}>
+              {anime?.genres
                 ? anime.genres
                     .filter(isPresent)
                     .map((genre, index) => (
                       <GenreTag key={`genre-${index}`}>{genre}</GenreTag>
                     ))
                 : null}
-            </Genres>
-            <Description>
-              {(anime.description
-                ? _.truncate(anime.description, {
-                    length: expanded ? Infinity : 500,
-                    // split the description into an array of paragraphs
-                  }).split('\n')
-                : ['']
-              )
-                // use line breaks between paragraphs
-                .map((text, index) => (
-                  <React.Fragment key={`description-${index}`}>
-                    {text}
-                    <br />
-                  </React.Fragment>
-                ))}
-            </Description>
+            </GenreSkeleton>
 
-            {!expanded ? (
+            <DescriptionSkeleton isLoaded={isLoaded}>
+              <p>
+                {(anime?.description
+                  ? _.truncate(anime.description, {
+                      length: expanded ? Infinity : 500,
+                      // split the description into an array of paragraphs
+                    }).split('\n')
+                  : ['']
+                )
+                  // use line breaks between paragraphs
+                  .map((text, index) => (
+                    <React.Fragment key={`description-${index}`}>
+                      {text}
+                      <br />
+                    </React.Fragment>
+                  ))}
+              </p>
+            </DescriptionSkeleton>
+
+            {!expanded && isLoaded ? (
               <ExpandControls
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: expanded ? 0 : 1 }}
@@ -105,8 +119,8 @@ const AnimePage = ({ anime }: AnimePageProps) => {
         <Divider p={4} />
 
         <MoreInformation>
-          <DetailsColumn>
-            {anime.airedStart ? (
+          <DetailsColumnSkeleton isLoaded={isLoaded}>
+            {anime?.airedStart ? (
               <Label>
                 <Field>Aired</Field>
                 <Value>
@@ -121,7 +135,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </Value>
               </Label>
             ) : null}
-            {anime.season && anime.airedStart ? (
+            {anime?.season && anime?.airedStart ? (
               <Label>
                 <Field>Premiered</Field>
                 <TagList>
@@ -134,25 +148,25 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </TagList>
               </Label>
             ) : null}
-            {anime.episodes && anime.type !== 'movie' ? (
+            {anime?.episodes && anime?.type !== 'movie' ? (
               <Label>
                 <Field>Episodes</Field>
                 <Value>{anime.episodes}</Value>
               </Label>
             ) : null}
-            {anime.duration ? (
+            {anime?.duration ? (
               <Label>
                 <Field>Duration</Field>
                 <Value>{anime.duration}</Value>
               </Label>
             ) : null}
-            {anime.sourceMaterialType ? (
+            {anime?.sourceMaterialType ? (
               <Label>
                 <Field>Source Material</Field>
                 <Value>{anime.sourceMaterialType}</Value>
               </Label>
             ) : null}
-            {anime.licensors?.length ? (
+            {anime?.licensors?.length ? (
               <Label>
                 <Field>Licensors</Field>
                 <TagList>
@@ -165,7 +179,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </TagList>
               </Label>
             ) : null}
-            {anime.producers?.length ? (
+            {anime?.producers?.length ? (
               <Label>
                 <Field>Producers</Field>
                 <TagList>
@@ -178,7 +192,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </TagList>
               </Label>
             ) : null}
-            {anime.studios?.length ? (
+            {anime?.studios?.length ? (
               <Label>
                 <Field>Studios</Field>
                 <TagList>
@@ -191,7 +205,8 @@ const AnimePage = ({ anime }: AnimePageProps) => {
                 </TagList>
               </Label>
             ) : null}
-          </DetailsColumn>
+          </DetailsColumnSkeleton>
+
           <Placeholder />
         </MoreInformation>
       </Content>
@@ -231,54 +246,69 @@ export const getStaticPaths: GetStaticPaths = async () => {
     `,
   })
 
-  const paths = data.data.getAllAnime.map((item) => ({
-    params: {
-      slug: item.slug,
-    },
-  }))
+  const paths = data.data.getAllAnime
+    // TODO: remove this once our database data is good
+    .filter((item) => item.slug)
+    .map((item) => ({
+      params: {
+        slug: item.slug,
+      },
+    }))
 
-  return { paths, fallback: false }
+  return { paths, fallback: true }
 }
 
 export const getStaticProps: GetStaticProps<AnimePageProps, { slug: string }> =
   async ({ params }) => {
-    const data = await client.query<{ getAnime: Query['getAnime'] }>({
-      query: gql`
-        query getAnime($slug: String!) {
-          getAnime(slug: $slug) {
-            title
-            season
-            description
-            episodes
-            englishTitle
-            type
-            status
-            duration
-            airedStart
-            airedEnd
-            mainImage
-            japaneseTitle
-            sourceMaterialType
-            synonyms
-            studios
-            genres
-            producers
-            licensors
-            sources {
-              name
-              url
+    const data = await client
+      .query<{ getAnime: Query['getAnime'] }>({
+        query: gql`
+          query getAnime($slug: String!) {
+            getAnime(slug: $slug) {
+              title
+              season
+              description
+              episodes
+              englishTitle
+              type
+              status
+              duration
+              airedStart
+              airedEnd
+              mainImage
+              japaneseTitle
+              sourceMaterialType
+              synonyms
+              studios
+              genres
+              producers
+              licensors
+              sources {
+                name
+                url
+              }
             }
           }
+        `,
+        variables: {
+          slug: params?.slug || '',
+        },
+      })
+      .catch(() => {
+        return {
+          data: {
+            getAnime: null,
+          },
         }
-      `,
-      variables: {
-        slug: params?.slug || '',
-      },
-    })
+      })
 
     const anime = data.data.getAnime
 
-    return { props: { anime } }
+    return {
+      props: { anime },
+      // pre-render becomes outdated after 5 minutes
+      revalidate: 300,
+    }
   }
 
 const CoverContainer = tw.div`relative h-80! md:h-52! overflow-hidden`
@@ -291,17 +321,24 @@ const MainImageContainer = tw.div`flex-shrink-0 -mt-80! md:-mt-36! mr-0! md:mr-1
 
 const Content = tw.div`m-auto max-w-6xl px-6 py-8 md:pb-10 md:pt-6`
 
-const TitleDescriptionContainer = tw.div`relative mt-3 md:mt-0`
+const TitleDescriptionContainer = tw.div`relative mt-3 md:mt-0 w-full`
 
-const TitleContainer = tw.div`flex items-center justify-center md:justify-start flex-col md:flex-row mb-1`
+const TitleSkeleton = tw(
+  Skeleton,
+)`flex items-center justify-center md:justify-start flex-col md:flex-row mb-2 h-8`
 
 const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-0 md:mb-0.5`
 
 const Badges = tw.div``
 
-const Genres = tw.div`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left`
+const GenreSkeleton = tw(
+  Skeleton,
+)`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left h-6`
 
-const Description = tw.p`text-gray-700 dark:text-gray-300`
+const DescriptionSkeleton = styled(Skeleton)<{ isLoaded: boolean }>`
+  ${tw`text-gray-700 dark:text-gray-300`}
+  ${({ isLoaded }) => (isLoaded ? tw`h-auto` : tw`h-28`)}
+`
 
 const ExpandControls = tw(
   motion.div,
@@ -311,7 +348,10 @@ const ExpandText = tw.p`font-bold text-gray-600 dark:text-gray-300 bg-gradient-t
 
 const MoreInformation = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8`
 
-const DetailsColumn = tw.div`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded`
+const DetailsColumnSkeleton = styled(Skeleton)<{ isLoaded: boolean }>`
+  ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded`}
+  ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 418px;`)}
+`
 
 const Placeholder = tw.div`col-span-1 md:col-span-3 xl:col-span-2`
 
