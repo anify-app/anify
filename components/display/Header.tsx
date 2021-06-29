@@ -96,19 +96,19 @@ const Container = styled.div`
   grid-template-columns: auto auto 1fr 1fr;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr auto auto;
   }
 `
 
 const HamburgerButton = tw(
   HiMenu,
-)`h-6 w-6 mr-7 cursor-pointer hover:text-green-500`
+)`h-6 w-6 mr-7 cursor-pointer hover:text-emerald-500`
 
-const LogoContainer = tw.div`text-center md:text-left`
+const LogoContainer = tw.div`text-left`
 
 const Settings = tw.div`justify-self-end`
 
-const SettingsButton = tw(HiCog)`h-6 w-6 cursor-pointer hover:text-green-500`
+const SettingsButton = tw(HiCog)`h-6 w-6 cursor-pointer hover:text-emerald-500`
 
 const SettingsMenu = tw(
   motion.div,

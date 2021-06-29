@@ -18,11 +18,11 @@ const Text = styled.h1<{
   size: LogoProps['size']
 }>`
   ${({ size }) => [
-    tw`font-bold text-gray-900 dark:text-gray-50 select-none transition-colors`,
+    tw`inline font-bold text-gray-900 dark:text-gray-50 select-none transition-colors`,
     size === 'large' && tw`text-4xl`,
     size === 'medium' && tw`text-3xl`,
     size === 'small' && tw`text-2xl`,
   ]}
 `
 
-const Period = tw.span`text-green-500 font-black`
+const Period = tw.span`text-emerald-500 font-black`
