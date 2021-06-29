@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useClickAway } from 'react-use'
 import Logo from './Logo'
+import Search from './Search'
 
 type HeaderTypes = {
   onHamburgerClick: () => void
@@ -45,6 +46,8 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
         <LogoContainer>
           <Logo size="medium" />
         </LogoContainer>
+
+        <Search />
 
         <Settings ref={settingsMenuRef}>
           <SettingsButton
@@ -90,10 +93,10 @@ export default Header
 
 const Container = styled.div`
   ${tw`relative bg-white dark:bg-black grid py-4 px-6 items-center transition-colors`}
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: auto auto 1fr 1fr;
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 `
 
