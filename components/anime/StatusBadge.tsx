@@ -2,9 +2,10 @@ import { Badge } from '@chakra-ui/react'
 
 type StatusBadgeProps = {
   status: string
+  variant?: 'outline' | 'solid' | 'subtle'
 }
 
-const StatusBadge = ({ status }: StatusBadgeProps) => {
+const StatusBadge = ({ status, variant = 'solid' }: StatusBadgeProps) => {
   return (
     <Badge
       colorScheme={(() => {
@@ -13,6 +14,7 @@ const StatusBadge = ({ status }: StatusBadgeProps) => {
         if (status === 'ongoing') return 'yellow'
         return 'gray'
       })()}
+      variant={variant}
     >
       {status}
     </Badge>

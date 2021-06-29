@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import tw, { styled } from 'twin.macro'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { isPresent } from 'utils'
 import { Skeleton } from '@chakra-ui/react'
 import _ from 'lodash'
-import TypeBadge from './TypeBadge'
-import StatusBadge from './StatusBadge'
-import GenreTag from './GenreTag'
+import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
 
 type MainInformationProps = {
   isLoaded: boolean

@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useClickAway } from 'react-use'
 import Logo from './Logo'
-import Search from './Search'
+import { Search } from 'components/anime-search'
 
 type HeaderTypes = {
   onHamburgerClick: () => void
