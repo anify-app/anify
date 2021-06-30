@@ -7,7 +7,9 @@ import {
   Tooltip,
   useColorMode,
   InputLeftElement,
+  InputRightElement,
   InputGroup,
+  Spinner,
 } from '@chakra-ui/react'
 import { gql, useQuery } from '@apollo/client'
 import Image from 'next/image'
@@ -26,6 +28,7 @@ const SEARCH_QUERY = gql`
       type
       status
       genres
+      mainImageBlurred
     }
   }
 `
@@ -98,12 +101,21 @@ const Search = () => {
                 textColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
                 borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
               />
+              <InputRightElement pointerEvents="none">
+                {searchQuery.loading ? (
+                  <LoadingSearchIcon size="sm" color="green.500" />
+                ) : null}
+              </InputRightElement>
             </SearchInputGroup>
             <Grid>
-              {searchQuery.data?.searchAnime
-                .filter(isPresent)
-                .filter((anime) => anime.mainImage)
-                .map((anime) => (
+              {searchQuery.data?.searchAnime.filter(isPresent).map((anime) => {
+                if (
+                  !isPresent(anime.mainImage) ||
+                  !isPresent(anime.mainImageBlurred)
+                )
+                  return null
+
+                return (
                   <Tooltip
                     label={<AnimeTooltipLabel anime={anime} />}
                     placement="right"
@@ -112,17 +124,23 @@ const Search = () => {
                   >
                     <AnimePost>
                       <Link href={`/anime/${anime.slug}`} passHref>
-                        <Image
-                          src={anime.mainImage || ''}
-                          width={225}
-                          height={350}
-                          layout="fixed"
-                          alt={`${anime?.title} poster.`}
-                        />
+                        <span>
+                          <Image
+                            src={anime.mainImage}
+                            width={225}
+                            height={350}
+                            layout="fixed"
+                            alt={`${anime?.title} poster.`}
+                            placeholder="blur"
+                            blurDataURL={anime.mainImageBlurred}
+                            priority
+                          />
+                        </span>
                       </Link>
                     </AnimePost>
                   </Tooltip>
-                ))}
+                )
+              })}
             </Grid>
           </Modal>
         ) : null}
@@ -149,11 +167,13 @@ const SearchInputGroup = tw(InputGroup)`w-full md:w-2/3! xl:w-1/2! `
 
 const SearchInput = tw(
   Input,
-)`text-gray-900! dark:text-white! mb-12 placeholder-gray-800! dark:placeholder-gray-400!`
+)`text-gray-900! dark:text-white! mb-20 placeholder-gray-800! dark:placeholder-gray-400!`
 
 const ModalSearchIcon = tw(
   HiSearch,
 )`w-5 h-5 mt-1.5 text-gray-400 dark:text-gray-700`
+
+const LoadingSearchIcon = tw(Spinner)`w-5 h-5 mt-1.5`
 
 const Grid = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 pb-14`
 

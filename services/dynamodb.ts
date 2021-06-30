@@ -29,7 +29,7 @@ export class AnimeEntity extends Document {
   episodes!: number | null
   description!: string | null
   mainImage!: string | null
-  blurredMainImage!: string | null
+  mainImageBlurred!: string | null
   season!: string | null
   airedStart!: string | null
   slug!: string
