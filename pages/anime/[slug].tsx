@@ -26,7 +26,11 @@ const AnimePage = ({ anime }: AnimePageProps) => {
       noPadding
       shouldFullyCollapse
     >
-      <CoverImage isLoaded={isLoaded} mainImage={anime?.mainImage} />
+      <CoverImage
+        isLoaded={isLoaded}
+        mainImage={anime?.mainImage}
+        mainImageBlurred={anime?.mainImageBlurred}
+      />
 
       <Content>
         <MainInformation isLoaded={isLoaded} anime={anime} />

@@ -24,13 +24,16 @@ const MainInformation = ({ isLoaded, anime }: MainInformationProps) => {
         width={225}
         height={350}
       >
-        {anime?.mainImage ? (
+        {anime?.mainImage && anime?.mainImageBlurred ? (
           <Image
             src={anime.mainImage}
             width={225}
             height={350}
             layout="fixed"
             alt={`${anime?.title} poster.`}
+            placeholder="blur"
+            blurDataURL={anime.mainImageBlurred}
+            priority
           />
         ) : null}
       </MainImageSkeleton>

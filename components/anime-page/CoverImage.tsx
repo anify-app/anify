@@ -5,15 +5,28 @@ import tw, { styled } from 'twin.macro'
 type CoverImageProps = {
   isLoaded: boolean
   mainImage?: string | null
+  mainImageBlurred?: string | null
 }
 
-const CoverImage = ({ isLoaded, mainImage }: CoverImageProps) => {
+const CoverImage = ({
+  isLoaded,
+  mainImage,
+  mainImageBlurred,
+}: CoverImageProps) => {
   return (
     <Container>
       <Noise />
       <LoadingSkeleton isLoaded={isLoaded}>
-        {mainImage ? (
-          <Image src={mainImage} layout="fill" objectFit="cover" alt="" />
+        {mainImage && mainImageBlurred ? (
+          <Image
+            src={mainImage}
+            layout="fill"
+            objectFit="cover"
+            alt=""
+            placeholder="blur"
+            blurDataURL={mainImageBlurred}
+            priority
+          />
         ) : null}
       </LoadingSkeleton>
     </Container>

@@ -18,6 +18,7 @@ import { isPresent } from 'utils'
 import { AnimeTooltipLabel } from 'components/anime-search'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 
 const SEARCH_QUERY = gql`
   query SearchAnime($query: String!) {
@@ -85,63 +86,74 @@ const Search = () => {
             transition={{ duration: 0.1 }}
             onClick={() => setIsModalOpen(false)}
           >
-            <SearchInputGroup>
-              <InputLeftElement pointerEvents="none">
-                <ModalSearchIcon />
-              </InputLeftElement>
-              <SearchInput
-                onClick={(e) => e.stopPropagation()}
-                size="lg"
-                placeholder="Search anime"
-                ref={searchInputRef}
-                value={clientSearchTerm}
-                onChange={(e) => setClientSearchTerm(e.target.value)}
-                focusBorderColor="green.500"
-                variant="flushed"
-                textColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
-                borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
-              />
-              <InputRightElement pointerEvents="none">
-                {searchQuery.loading ? (
-                  <LoadingSearchIcon size="sm" color="green.500" />
-                ) : null}
-              </InputRightElement>
-            </SearchInputGroup>
-            <Grid>
-              {searchQuery.data?.searchAnime.filter(isPresent).map((anime) => {
-                if (
-                  !isPresent(anime.mainImage) ||
-                  !isPresent(anime.mainImageBlurred)
-                )
-                  return null
+            <Scroll
+              className={
+                colorMode === 'dark' ? 'os-theme-light' : 'os-theme-dark'
+              }
+              options={{ scrollbars: { autoHide: 'scroll' } }}
+            >
+              <ModalContent>
+                <SearchInputGroup>
+                  <InputLeftElement pointerEvents="none">
+                    <ModalSearchIcon />
+                  </InputLeftElement>
+                  <SearchInput
+                    onClick={(e) => e.stopPropagation()}
+                    size="lg"
+                    placeholder="Search anime"
+                    ref={searchInputRef}
+                    value={clientSearchTerm}
+                    onChange={(e) => setClientSearchTerm(e.target.value)}
+                    focusBorderColor="green.500"
+                    variant="flushed"
+                    textColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
+                    borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
+                  />
+                  <InputRightElement pointerEvents="none">
+                    {searchQuery.loading ? (
+                      <LoadingSearchIcon size="sm" color="green.500" />
+                    ) : null}
+                  </InputRightElement>
+                </SearchInputGroup>
+                <Grid>
+                  {searchQuery.data?.searchAnime
+                    .filter(isPresent)
+                    .map((anime) => {
+                      if (
+                        !isPresent(anime.mainImage) ||
+                        !isPresent(anime.mainImageBlurred)
+                      )
+                        return null
 
-                return (
-                  <Tooltip
-                    label={<AnimeTooltipLabel anime={anime} />}
-                    placement="right"
-                    key={anime.slug}
-                    hasArrow
-                  >
-                    <AnimePost>
-                      <Link href={`/anime/${anime.slug}`} passHref>
-                        <span>
-                          <Image
-                            src={anime.mainImage}
-                            width={225}
-                            height={350}
-                            layout="fixed"
-                            alt={`${anime?.title} poster.`}
-                            placeholder="blur"
-                            blurDataURL={anime.mainImageBlurred}
-                            priority
-                          />
-                        </span>
-                      </Link>
-                    </AnimePost>
-                  </Tooltip>
-                )
-              })}
-            </Grid>
+                      return (
+                        <Tooltip
+                          label={<AnimeTooltipLabel anime={anime} />}
+                          placement="right"
+                          key={anime.slug}
+                          hasArrow
+                        >
+                          <AnimePost>
+                            <Link href={`/anime/${anime.slug}`} passHref>
+                              <span>
+                                <Image
+                                  src={anime.mainImage}
+                                  width={225}
+                                  height={350}
+                                  layout="fixed"
+                                  alt={`${anime?.title} poster.`}
+                                  placeholder="blur"
+                                  blurDataURL={anime.mainImageBlurred}
+                                  priority
+                                />
+                              </span>
+                            </Link>
+                          </AnimePost>
+                        </Tooltip>
+                      )
+                    })}
+                </Grid>
+              </ModalContent>
+            </Scroll>
           </Modal>
         ) : null}
       </AnimatePresence>
@@ -161,7 +173,13 @@ const SearchButtonText = tw.span`hidden md:inline`
 
 const Modal = tw(
   motion.div,
-)`absolute top-0 left-0 w-screen min-h-screen bg-white dark:bg-black bg-opacity-90! z-40 flex flex-col items-center pt-32 px-8`
+)`absolute top-0 left-0 bg-white dark:bg-black bg-opacity-90! z-40`
+
+const Scroll = tw(
+  OverlayScrollbarsComponent,
+)`pt-32 px-8 w-screen h-screen overflow-hidden!`
+
+const ModalContent = tw.div`flex flex-col items-center`
 
 const SearchInputGroup = tw(InputGroup)`w-full md:w-2/3! xl:w-1/2! `
 
