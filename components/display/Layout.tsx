@@ -69,7 +69,7 @@ const ContentContainer = tw.div`relative flex flex-grow`
 
 const Content = styled(OverlayScrollbarsComponent)<{ $noPadding: boolean }>`
   ${({ $noPadding }) => [
-    tw`relative h-full flex-grow bg-gray-50 dark:bg-gray-900 transition-colors overflow-hidden`,
+    tw`relative h-full flex-grow bg-gray-50 dark:bg-gray-900 transition-colors overflow-hidden w-screen`,
     !$noPadding && tw`px-6 md:px-14 py-8 md:py-10`,
   ]}
 `

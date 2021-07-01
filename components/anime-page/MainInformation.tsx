@@ -41,12 +41,12 @@ const MainInformation = ({ isLoaded, anime }: MainInformationProps) => {
       <TitleDescriptionContainer>
         <TitleSkeleton isLoaded={isLoaded}>
           <Title>{anime?.title}</Title>
-
-          <Badges>
+          &nbsp;&nbsp;
+          <Genres>
             {anime?.type ? <TypeBadge type={anime.type} /> : null}
             &nbsp;
             {anime?.status ? <StatusBadge status={anime.status} /> : null}
-          </Badges>
+          </Genres>
         </TitleSkeleton>
 
         <GenreSkeleton isLoaded={isLoaded}>
@@ -105,13 +105,13 @@ const MainImageSkeleton = tw(
 const TitleDescriptionContainer = tw.div`relative mt-3 md:mt-0 w-full`
 
 const TitleSkeleton = styled(Skeleton)`
-  ${tw`flex items-center justify-center md:justify-start flex-col md:flex-row mb-2 h-8`}
+  ${tw`md:flex-row mb-3 leading-4 text-center md:text-left`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : tw`h-8`)}
 `
 
-const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left mr-3 mb-0 md:mb-0.5`
+const Title = tw.h1`inline text-4xl md:text-3xl font-semibold align-middle`
 
-const Badges = tw.div``
+const Genres = tw.span`align-middle`
 
 const GenreSkeleton = styled(Skeleton)`
   ${tw`mt-3 mb-2 md:mt-0 text-center md:text-left`}
