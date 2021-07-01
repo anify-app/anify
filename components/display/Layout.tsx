@@ -50,7 +50,7 @@ const Layout = ({
             className={
               colorMode === 'dark' ? 'os-theme-light' : 'os-theme-dark'
             }
-            noPadding={noPadding}
+            $noPadding={noPadding}
             options={{ scrollbars: { autoHide: 'scroll' } }}
           >
             {children}
@@ -67,9 +67,9 @@ const Container = tw.div`flex flex-col h-screen overflow-hidden`
 
 const ContentContainer = tw.div`relative flex flex-grow`
 
-const Content = styled(OverlayScrollbarsComponent)<{ noPadding: boolean }>`
-  ${({ noPadding }) => [
+const Content = styled(OverlayScrollbarsComponent)<{ $noPadding: boolean }>`
+  ${({ $noPadding }) => [
     tw`relative h-full flex-grow bg-gray-50 dark:bg-gray-900 transition-colors`,
-    !noPadding && tw`px-6 md:px-14 py-8 md:py-10`,
+    !$noPadding && tw`px-6 md:px-14 py-8 md:py-10`,
   ]}
 `
