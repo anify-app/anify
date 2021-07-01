@@ -5,7 +5,6 @@ import { Divider } from '@chakra-ui/react'
 import { gql, useQuery } from '@apollo/client'
 import { useDebounce } from 'react-use'
 import { AnimatePresence } from 'framer-motion'
-import { useWindowSize } from 'react-use'
 import DesktopSearchModal from './DesktopSearchModal'
 import MobileSearchModal from './MobileSearchModal'
 
@@ -37,9 +36,6 @@ const Search = () => {
   )
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const { width } = useWindowSize()
-
-  const isMobile = width < 768
 
   useDebounce(
     () => {
@@ -57,24 +53,6 @@ const Search = () => {
     if (!isModalOpen) setClientSearchTerm('')
   }, [isModalOpen])
 
-  const activeModal = isMobile ? (
-    <MobileSearchModal
-      onClose={() => setIsModalOpen(false)}
-      searchTerm={clientSearchTerm}
-      onSearchTermChange={(v) => setClientSearchTerm(v)}
-      searchQuery={searchQuery}
-      searchInputRef={searchInputRef}
-    />
-  ) : (
-    <DesktopSearchModal
-      onClose={() => setIsModalOpen(false)}
-      searchTerm={clientSearchTerm}
-      onSearchTermChange={(v) => setClientSearchTerm(v)}
-      searchQuery={searchQuery}
-      searchInputRef={searchInputRef}
-    />
-  )
-
   return (
     <>
       <Container
@@ -86,7 +64,26 @@ const Search = () => {
         <HeaderSearchIcon />
         <SearchButtonText>&nbsp; Search anime</SearchButtonText>
       </Container>
-      <AnimatePresence>{isModalOpen ? activeModal : null}</AnimatePresence>
+      <AnimatePresence>
+        {isModalOpen ? (
+          <>
+            <MobileSearchModal
+              onClose={() => setIsModalOpen(false)}
+              searchTerm={clientSearchTerm}
+              onSearchTermChange={(v) => setClientSearchTerm(v)}
+              searchQuery={searchQuery}
+              searchInputRef={searchInputRef}
+            />
+            <DesktopSearchModal
+              onClose={() => setIsModalOpen(false)}
+              searchTerm={clientSearchTerm}
+              onSearchTermChange={(v) => setClientSearchTerm(v)}
+              searchQuery={searchQuery}
+              searchInputRef={searchInputRef}
+            />
+          </>
+        ) : null}
+      </AnimatePresence>
     </>
   )
 }

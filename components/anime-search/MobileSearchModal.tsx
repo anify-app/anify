@@ -139,11 +139,11 @@ export default MobileSearchModal
 
 const Modal = tw(
   motion.div,
-)`absolute top-0 left-0 bg-white dark:bg-black bg-opacity-100! z-40`
+)`absolute block md:hidden top-0 left-0 bg-white dark:bg-black bg-opacity-100! z-40`
 
 const Scroll = tw(
   OverlayScrollbarsComponent,
-)`pt-32 px-8 w-screen h-screen overflow-hidden!`
+)`pt-20 px-8 w-screen h-screen overflow-hidden!`
 
 const ModalContent = tw.div`flex flex-col items-center`
 
