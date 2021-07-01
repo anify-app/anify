@@ -114,7 +114,7 @@ const Title = tw.h1`text-4xl md:text-3xl font-semibold text-center md:text-left 
 const Badges = tw.div``
 
 const GenreSkeleton = styled(Skeleton)`
-  ${tw`mt-3 mb-2 md:mt-0 leading-8 text-center md:text-left h-6`}
+  ${tw`mt-3 mb-2 md:mt-0 text-center md:text-left`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : tw`h-6`)}
 `
 

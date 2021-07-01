@@ -1,4 +1,5 @@
 import { Tag } from '@chakra-ui/react'
+import tw from 'twin.macro'
 
 type GenreTagProps = {
   children: string
@@ -8,13 +9,12 @@ type GenreTagProps = {
 
 const GenreTag = ({ children, variant, size }: GenreTagProps) => {
   return (
-    <>
-      <Tag colorScheme="blue" variant={variant} size={size}>
-        {children}
-      </Tag>
-      &nbsp;
-    </>
+    <SpacedTag colorScheme="blue" variant={variant} size={size}>
+      {children}
+    </SpacedTag>
   )
 }
 
 export default GenreTag
+
+const SpacedTag = tw(Tag)`mr-1 mb-1`
