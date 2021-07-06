@@ -34,6 +34,21 @@ export const schema = gql`
   type Query {
     getAnime(slug: String!): Anime!
     getAllAnime(first: Int, last: Int, skip: Int): [Anime!]!
-    searchAnime(query: String!): [Anime]!
+    searchAnime(
+      query: String!
+      page: Int
+      hitsPerPage: Int
+      offset: Int
+      length: Int
+    ): SearchResponse!
+  }
+
+  type SearchResponse {
+    hits: [Anime]!
+    page: Int!
+    nbPages: Int!
+    nbHits: Int!
+    hitsPerPage: Int!
+    message: String
   }
 `

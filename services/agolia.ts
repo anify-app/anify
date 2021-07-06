@@ -17,9 +17,27 @@ export class Agolia extends DataSource {
     ).initIndex(process.env.SEARCH_INDEX)
   }
 
-  async searchAnime({ query }: QuerySearchAnimeArgs) {
-    const results = await this.index.search(query, { hitsPerPage: 200 })
+  async searchAnime({
+    query,
+    page,
+    hitsPerPage,
+    offset,
+    length,
+  }: QuerySearchAnimeArgs) {
+    const results = await this.index.search(query, {
+      hitsPerPage: hitsPerPage || undefined,
+      page: page || undefined,
+      offset: offset || undefined,
+      length: length || undefined,
+    })
 
-    return results.hits
+    return {
+      hits: results.hits,
+      page: results.page,
+      nbPages: results.nbPages,
+      nbHits: results.nbHits,
+      hitsPerPage: results.hitsPerPage,
+      message: results.message,
+    }
   }
 }
