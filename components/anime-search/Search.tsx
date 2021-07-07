@@ -37,7 +37,6 @@ const Search = () => {
         limit: 20,
       },
       skip: apolloSearchTerm === '',
-      notifyOnNetworkStatusChange: true,
     },
   )
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
