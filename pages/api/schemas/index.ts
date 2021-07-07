@@ -14,6 +14,7 @@ export const schema = gql`
     season: String
     airedStart: String
     description: String
+    score: Int
     airedEnd: String
     duration: String
     sourceMaterialType: String
@@ -52,5 +53,6 @@ export const schema = gql`
     message: String
     length: Int
     offset: Int
+    hasNextPage: Boolean!
   }
 `
