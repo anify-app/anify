@@ -5,7 +5,6 @@ import Link from 'next/link'
 import {
   Tooltip,
   InputLeftElement,
-  InputRightElement,
   InputGroup,
   Spinner,
   Input,
@@ -15,7 +14,7 @@ import { motion } from 'framer-motion'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import tw from 'twin.macro'
-import { HiSearch } from 'react-icons/hi'
+import { HiSearch, HiInbox } from 'react-icons/hi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 type DesktopSearchModalProps = {
@@ -81,11 +80,6 @@ const DesktopSearchModal = ({
               textColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
               borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.400'}
             />
-            <InputRightElement pointerEvents="none">
-              {searchQuery.loading ? (
-                <LoadingSearchIcon size="sm" color="green.500" />
-              ) : null}
-            </InputRightElement>
           </SearchInputGroup>
           <Grid>
             {searchQuery.data?.searchAnime.hits
@@ -125,6 +119,14 @@ const DesktopSearchModal = ({
               })}
           </Grid>
 
+          {/* show empty when no results exist */}
+          {searchQuery.data?.searchAnime.hits.length === 0 ? (
+            <EmptyContainer>
+              <EmptyIcon size="36px" />
+              <p>No results found</p>
+            </EmptyContainer>
+          ) : null}
+
           {/* show loading icon when paginating more */}
           {searchQuery.loading || hasNextPage ? (
             <LoadingPaginationContainer ref={sentryRef}>
@@ -159,7 +161,9 @@ const ModalSearchIcon = tw(
   HiSearch,
 )`w-5 h-5 mt-1.5 text-gray-400 dark:text-gray-700`
 
-const LoadingSearchIcon = tw(Spinner)`w-5 h-5 mt-1.5`
+const EmptyContainer = tw.div`flex items-center flex-col opacity-50`
+
+const EmptyIcon = tw(HiInbox)`mb-2`
 
 const LoadingPaginationContainer = tw.div`mb-7`
 
