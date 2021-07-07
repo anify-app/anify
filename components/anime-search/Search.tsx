@@ -9,8 +9,8 @@ import DesktopSearchModal from './DesktopSearchModal'
 import MobileSearchModal from './MobileSearchModal'
 
 const SEARCH_QUERY = gql`
-  query SearchAnime($query: String!, $offset: Int, $limit: Int) {
-    searchAnime(query: $query, offset: $offset, limit: $limit) {
+  query SearchAnime($query: String!, $page: Int, $hitsPerPage: Int) {
+    searchAnime(query: $query, page: $page, hitsPerPage: $hitsPerPage) {
       hits {
         slug
         title
@@ -20,7 +20,8 @@ const SEARCH_QUERY = gql`
         genres
         mainImageBlurred
       }
-      nbHits
+      hasNextPage
+      page
     }
   }
 `
@@ -33,8 +34,8 @@ const Search = () => {
     {
       variables: {
         query: apolloSearchTerm,
-        offset: 0,
-        limit: 20,
+        page: 0,
+        hitsPerPage: 20,
       },
       skip: apolloSearchTerm === '',
     },
@@ -61,7 +62,7 @@ const Search = () => {
   const onPaginate = () =>
     searchQuery.fetchMore({
       variables: {
-        offset: searchQuery.data?.searchAnime.hits.length,
+        page: (searchQuery.data?.searchAnime.page || 0) + 1,
       },
     })
 

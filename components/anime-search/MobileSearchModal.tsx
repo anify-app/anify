@@ -39,13 +39,10 @@ const MobileSearchModal = ({
   searchInputRef,
   onPaginate,
 }: MobileSearchModalProps) => {
-  const hasNextPage =
-    searchQuery.data?.searchAnime.hits.length !==
-    searchQuery.data?.searchAnime.nbHits
   const { colorMode } = useColorMode()
   const [sentryRef] = useInfiniteScroll({
     loading: searchQuery.loading,
-    hasNextPage,
+    hasNextPage: searchQuery.data?.searchAnime.hasNextPage || false,
     onLoadMore: onPaginate,
   })
 
@@ -148,7 +145,7 @@ const MobileSearchModal = ({
           ) : null}
 
           {/* show loading icon when paginating more */}
-          {searchQuery.loading || hasNextPage ? (
+          {searchQuery.loading || searchQuery.data?.searchAnime.hasNextPage ? (
             <LoadingPaginationContainer ref={sentryRef}>
               <Spinner size="lg" color="green.500" />
             </LoadingPaginationContainer>

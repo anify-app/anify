@@ -40,7 +40,7 @@ export class Agolia extends DataSource {
       nbHits: results.nbHits,
       hitsPerPage: results.hitsPerPage,
       message: results.message,
-      hasNextPage: results.page !== results.nbPages,
+      hasNextPage: results.page + 1 !== results.nbPages,
     }
   }
 }
