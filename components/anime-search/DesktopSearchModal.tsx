@@ -16,6 +16,7 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import tw from 'twin.macro'
 import { HiSearch } from 'react-icons/hi'
+import useInfiniteScroll from 'react-infinite-scroll-hook'
 
 type DesktopSearchModalProps = {
   onClose: () => void
@@ -28,6 +29,7 @@ type DesktopSearchModalProps = {
     OperationVariables
   >
   searchInputRef: React.RefObject<HTMLInputElement>
+  onPaginate: () => void
 }
 
 const DesktopSearchModal = ({
@@ -36,8 +38,17 @@ const DesktopSearchModal = ({
   onSearchTermChange,
   searchQuery,
   searchInputRef,
+  onPaginate,
 }: DesktopSearchModalProps) => {
+  const hasNextPage =
+    searchQuery.data?.searchAnime.hits.length !==
+    searchQuery.data?.searchAnime.nbHits
   const { colorMode } = useColorMode()
+  const [sentryRef] = useInfiniteScroll({
+    loading: searchQuery.loading,
+    hasNextPage,
+    onLoadMore: onPaginate,
+  })
 
   return (
     <Modal
@@ -49,7 +60,9 @@ const DesktopSearchModal = ({
     >
       <Scroll
         className={colorMode === 'dark' ? 'os-theme-light' : 'os-theme-dark'}
-        options={{ scrollbars: { autoHide: 'scroll' } }}
+        options={{
+          scrollbars: { autoHide: 'scroll' },
+        }}
       >
         <ModalContent>
           <SearchInputGroup>
@@ -75,40 +88,49 @@ const DesktopSearchModal = ({
             </InputRightElement>
           </SearchInputGroup>
           <Grid>
-            {searchQuery.data?.searchAnime.filter(isPresent).map((anime) => {
-              if (
-                !isPresent(anime.mainImage) ||
-                !isPresent(anime.mainImageBlurred)
-              )
-                return null
+            {searchQuery.data?.searchAnime.hits
+              .filter(isPresent)
+              .map((anime) => {
+                if (
+                  !isPresent(anime.mainImage) ||
+                  !isPresent(anime.mainImageBlurred)
+                )
+                  return null
 
-              return (
-                <Tooltip
-                  label={<AnimeTooltipLabel anime={anime} />}
-                  placement="right"
-                  key={anime.slug}
-                  hasArrow
-                >
-                  <AnimePost>
-                    <Link href={`/anime/${anime.slug}`} passHref>
-                      <span>
-                        <Image
-                          src={anime.mainImage}
-                          width={225}
-                          height={350}
-                          layout="fixed"
-                          alt={`${anime?.title} poster.`}
-                          placeholder="blur"
-                          blurDataURL={anime.mainImageBlurred}
-                          priority
-                        />
-                      </span>
-                    </Link>
-                  </AnimePost>
-                </Tooltip>
-              )
-            })}
+                return (
+                  <Tooltip
+                    label={<AnimeTooltipLabel anime={anime} />}
+                    placement="right"
+                    key={anime.slug}
+                    hasArrow
+                  >
+                    <AnimePost>
+                      <Link href={`/anime/${anime.slug}`} passHref>
+                        <span>
+                          <Image
+                            src={anime.mainImage}
+                            width={225}
+                            height={350}
+                            layout="fixed"
+                            alt={`${anime?.title} poster.`}
+                            placeholder="blur"
+                            blurDataURL={anime.mainImageBlurred}
+                            priority
+                          />
+                        </span>
+                      </Link>
+                    </AnimePost>
+                  </Tooltip>
+                )
+              })}
           </Grid>
+
+          {/* show loading icon when paginating more */}
+          {searchQuery.loading || hasNextPage ? (
+            <LoadingPaginationContainer ref={sentryRef}>
+              <Spinner size="lg" color="green.500" />
+            </LoadingPaginationContainer>
+          ) : null}
         </ModalContent>
       </Scroll>
     </Modal>
@@ -139,6 +161,8 @@ const ModalSearchIcon = tw(
 
 const LoadingSearchIcon = tw(Spinner)`w-5 h-5 mt-1.5`
 
-const Grid = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 pb-14`
+const LoadingPaginationContainer = tw.div`mb-7`
+
+const Grid = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 pb-10`
 
 const AnimePost = tw.span`cursor-pointer`
