@@ -8,7 +8,7 @@ import 'overlayscrollbars/css/OverlayScrollbars.css'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ApolloProvider client={client}>
-      <ThemeProvider attribute="class" enableSystem>
+      <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
         <Chakra>
           <GlobalStyles />
           <Component {...pageProps} />

@@ -12,10 +12,6 @@ const CustomStyles = createGlobalStyle`
     ${tw`focus:outline-none`}
   }
 
-  * {
-    ${tw`transition-colors`}
-  }
-
   hr {
     box-sizing: border-box !important;
   }

@@ -106,7 +106,7 @@ const Search = () => {
 
 export default Search
 
-const Container = tw.button`flex items-center ml-0 md:ml-8 mr-3 md:mr-0 place-self-end md:place-self-start self-center hover:text-emerald-500 transition-opacity cursor-pointer`
+const Container = tw.button`flex items-center ml-0 md:ml-8 mr-3 md:mr-0 place-self-end md:place-self-start self-center hover:text-emerald-500 transition-colors cursor-pointer`
 
 const SectionDivider = tw(Divider)`pr-8 hidden md:inline`
 

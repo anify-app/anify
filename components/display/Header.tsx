@@ -102,13 +102,15 @@ const Container = styled.div`
 
 const HamburgerButton = tw(
   HiMenu,
-)`h-6 w-6 mr-7 cursor-pointer hover:text-emerald-500`
+)`h-6 w-6 mr-7 cursor-pointer hover:text-emerald-500 transition-colors`
 
 const LogoContainer = tw.div`text-left`
 
 const Settings = tw.div`justify-self-end`
 
-const SettingsButton = tw(HiCog)`h-6 w-6 cursor-pointer hover:text-emerald-500`
+const SettingsButton = tw(
+  HiCog,
+)`h-6 w-6 cursor-pointer hover:text-emerald-500 transition-colors`
 
 const SettingsMenu = tw(
   motion.div,
