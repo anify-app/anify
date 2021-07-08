@@ -106,19 +106,17 @@ const MobileSearchModal = ({
                           />
                         </ImageContainer>
                         <Information>
-                          <Title>
-                            <TitleText>{anime?.title}</TitleText>
-                            &nbsp;&nbsp;
-                            <Badges>
-                              {anime?.type ? (
-                                <TypeBadge type={anime.type} />
-                              ) : null}
-                              &nbsp;
-                              {anime?.status ? (
-                                <StatusBadge status={anime.status} />
-                              ) : null}
-                            </Badges>
-                          </Title>
+                          <Title>{anime?.title}</Title>
+
+                          <Badges>
+                            {anime?.type ? (
+                              <TypeBadge type={anime.type} />
+                            ) : null}
+                            &nbsp;
+                            {anime?.status ? (
+                              <StatusBadge status={anime.status} />
+                            ) : null}
+                          </Badges>
                           <Score>
                             <ScoreIcon />
                             <p>
@@ -126,19 +124,10 @@ const MobileSearchModal = ({
                               <ScoreTotal>/10</ScoreTotal>
                             </p>
                           </Score>
-                          {anime?.genres
-                            ? anime.genres
-                                .filter(isPresent)
-                                .map((genre, index) => (
-                                  <GenreTag key={`genre-${index}`}>
-                                    {genre}
-                                  </GenreTag>
-                                ))
-                            : null}
                         </Information>
                       </AnimeCard>
                     </Link>
-                    <Divider p={2} />
+                    <ItemDivider />
                   </AnimePost>
                 )
               })}
@@ -190,23 +179,21 @@ const EmptyContainer = tw.div`flex items-center flex-col opacity-50`
 
 const EmptyIcon = tw(HiInbox)`mb-2`
 
-const List = tw.div`grid grid-cols-1 gap-4 pb-14 w-full`
+const List = tw.div`flex flex-col pb-10`
 
 const AnimePost = tw.span`cursor-pointer`
 
 const AnimeCard = tw.div`flex flex-row items-center w-full pt-0.5`
 
-const TitleText = tw.h2`inline text-xl align-middle`
-
 const Information = tw.div`ml-4 flex-grow`
 
-const Badges = tw.span``
+const Badges = tw.div``
 
-const Title = tw.div`mb-1 leading-4`
+const Title = tw.h2`leading-5! align-middle`
 
-const LoadingPaginationContainer = tw.div`mb-12`
+const LoadingPaginationContainer = tw.div`text-center pb-12`
 
-const Score = tw.div`mb-2 flex items-center`
+const Score = tw.div`flex items-center`
 
 const ScoreIcon = tw(HiStar)`mr-0.5 h-5 w-5`
 
@@ -215,3 +202,5 @@ const ScoreTotal = tw.span`text-xs opacity-50`
 const ImageContainer = styled.div`
   width: 56.25px;
 `
+
+const ItemDivider = tw(Divider)`mt-2 mb-3`

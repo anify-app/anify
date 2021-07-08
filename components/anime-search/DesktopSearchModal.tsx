@@ -97,18 +97,16 @@ const DesktopSearchModal = ({
                   >
                     <AnimePost>
                       <Link href={`/anime/${anime.slug}`} passHref>
-                        <span>
-                          <Image
-                            src={anime.mainImage}
-                            width={225}
-                            height={350}
-                            layout="fixed"
-                            alt={`${anime?.title} poster.`}
-                            placeholder="blur"
-                            blurDataURL={anime.mainImageBlurred}
-                            priority
-                          />
-                        </span>
+                        <Image
+                          src={anime.mainImage}
+                          width={225}
+                          height={350}
+                          layout="fixed"
+                          alt={`${anime?.title} poster.`}
+                          placeholder="blur"
+                          blurDataURL={anime.mainImageBlurred}
+                          priority
+                        />
                       </Link>
                     </AnimePost>
                   </Tooltip>

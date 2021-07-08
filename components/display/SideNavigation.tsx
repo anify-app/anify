@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import tw, { styled } from 'twin.macro'
 import { Link } from 'elements'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -19,10 +20,16 @@ const SideNavigation = ({
 }: SideNavigationProps) => {
   const router = useRouter()
   const { width } = useWindowSize()
+  const [mounted, setMounted] = useState(false)
 
   const isMobile = width < 768
   const collapsedWidth = isMobile || shouldFullyCollapse ? 0 : 70
   const expandedWidth = isMobile ? '90%' : 300
+
+  // don't render dependent theme UI until mounted on the client
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
 
   return (
     <>

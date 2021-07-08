@@ -2,36 +2,18 @@ import { useState, useRef, useEffect } from 'react'
 import tw from 'twin.macro'
 import { HiSearch } from 'react-icons/hi'
 import { Divider } from '@chakra-ui/react'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useDebounce } from 'react-use'
 import { AnimatePresence } from 'framer-motion'
+import { SEARCH_ANIME } from 'gql'
 import DesktopSearchModal from './DesktopSearchModal'
 import MobileSearchModal from './MobileSearchModal'
-
-const SEARCH_QUERY = gql`
-  query SearchAnime($query: String!, $page: Int, $hitsPerPage: Int) {
-    searchAnime(query: $query, page: $page, hitsPerPage: $hitsPerPage) {
-      hits {
-        slug
-        title
-        mainImage
-        type
-        status
-        genres
-        mainImageBlurred
-        score
-      }
-      hasNextPage
-      page
-    }
-  }
-`
 
 const Search = () => {
   const [clientSearchTerm, setClientSearchTerm] = useState('')
   const [apolloSearchTerm, setApolloSearchTerm] = useState('')
   const searchQuery = useQuery<{ searchAnime: Query['searchAnime'] }>(
-    SEARCH_QUERY,
+    SEARCH_ANIME,
     {
       variables: {
         query: apolloSearchTerm,
