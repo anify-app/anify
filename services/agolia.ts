@@ -20,11 +20,13 @@ export class Agolia extends DataSource {
   async searchAnime({
     query,
     page,
+    searchableAttributes,
     hitsPerPage,
     offset,
     limit,
   }: QuerySearchAnimeArgs) {
     const results = await this.index.search(query, {
+      restrictSearchableAttributes: searchableAttributes || undefined,
       hitsPerPage: hitsPerPage || undefined,
       page: page || undefined,
       offset: offset || undefined,
