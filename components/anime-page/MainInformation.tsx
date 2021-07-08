@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import tw, { styled } from 'twin.macro'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { isPresent } from 'utils'
 import { Skeleton } from '@chakra-ui/react'
 import _ from 'lodash'
 import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
+import { AnimePoster } from 'components/anime'
 
 type MainInformationProps = {
   isLoaded: boolean
@@ -24,16 +24,11 @@ const MainInformation = ({ isLoaded, anime }: MainInformationProps) => {
         width={225}
         height={350}
       >
-        {anime?.mainImage && anime?.mainImageBlurred ? (
-          <Image
-            src={anime.mainImage}
-            width={225}
-            height={350}
-            layout="fixed"
-            alt={`${anime?.title} poster.`}
-            placeholder="blur"
-            blurDataURL={anime.mainImageBlurred}
-            priority
+        {anime?.title && anime?.mainImage && anime?.mainImageBlurred ? (
+          <AnimePoster
+            title={anime.title}
+            mainImage={anime.mainImage}
+            mainImageBlurred={anime.mainImageBlurred}
           />
         ) : null}
       </MainImageSkeleton>

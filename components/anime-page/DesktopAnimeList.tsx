@@ -6,6 +6,7 @@ import { AnimeTooltipLabel } from 'components/anime-search'
 import tw, { styled } from 'twin.macro'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { AnimePoster } from 'components/anime'
 
 type DesktopAnimeListProps = {
   searchQuery: QueryResult<
@@ -45,15 +46,10 @@ const DesktopAnimeList = ({ searchQuery }: DesktopAnimeListProps) => {
             >
               <AnimePost>
                 <Link href={`/anime/${anime.slug}`} passHref>
-                  <Image
-                    src={anime.mainImage}
-                    width={225}
-                    height={350}
-                    layout="fixed"
-                    alt={`${anime?.title} poster.`}
-                    placeholder="blur"
-                    blurDataURL={anime.mainImageBlurred}
-                    priority
+                  <AnimePoster
+                    title={anime.title || ''}
+                    mainImage={anime.mainImage}
+                    mainImageBlurred={anime.mainImageBlurred}
                   />
                 </Link>
                 <AnimeTitle>{anime.title}</AnimeTitle>
@@ -88,4 +84,4 @@ const LoadingPaginationContainer = tw.div`text-center mb-14`
 
 const SectionHeader = tw.h2`text-xl mb-4 font-semibold`
 
-const AnimeTitle = tw.h3`font-semibold text-sm h-12`
+const AnimeTitle = tw.h3`font-semibold text-sm h-12 mt-2`

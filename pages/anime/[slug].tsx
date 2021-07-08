@@ -10,12 +10,19 @@ import {
   InformationSection,
 } from 'components/anime-page'
 import { DynamoDB } from 'services/dynamodb'
+import { useRouter } from 'next/router'
 
 type AnimePageProps = {
   anime: Anime | null
 }
 
 const AnimePage = ({ anime }: AnimePageProps) => {
+  const { isFallback } = useRouter()
+
+  if (isFallback) {
+    return null
+  }
+
   if (anime === null) return <p>404</p>
 
   const isLoaded = anime !== undefined

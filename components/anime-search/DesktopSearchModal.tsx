@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { isPresent } from 'utils'
 import { AnimeTooltipLabel } from 'components/anime-search'
 import Link from 'next/link'
@@ -16,6 +15,7 @@ import { OperationVariables, QueryResult } from '@apollo/client'
 import tw from 'twin.macro'
 import { HiSearch, HiInbox } from 'react-icons/hi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { AnimePoster } from 'components/anime'
 
 type DesktopSearchModalProps = {
   onClose: () => void
@@ -97,15 +97,10 @@ const DesktopSearchModal = ({
                   >
                     <AnimePost>
                       <Link href={`/anime/${anime.slug}`} passHref>
-                        <Image
-                          src={anime.mainImage}
-                          width={225}
-                          height={350}
-                          layout="fixed"
-                          alt={`${anime?.title} poster.`}
-                          placeholder="blur"
-                          blurDataURL={anime.mainImageBlurred}
-                          priority
+                        <AnimePoster
+                          title={anime.title || ''}
+                          mainImage={anime.mainImage}
+                          mainImageBlurred={anime.mainImageBlurred}
                         />
                       </Link>
                     </AnimePost>

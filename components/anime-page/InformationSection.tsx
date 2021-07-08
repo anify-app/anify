@@ -15,7 +15,7 @@ type InformationSectionProps = {
 const InformationSection = ({ isLoaded, anime }: InformationSectionProps) => {
   return (
     <Container>
-      <LoadingSkeleton isLoaded={isLoaded}>
+      <MoreInformationColumn isLoaded={isLoaded}>
         {anime?.airedStart ? (
           <Label>
             <Field>Aired</Field>
@@ -106,7 +106,7 @@ const InformationSection = ({ isLoaded, anime }: InformationSectionProps) => {
             ))}
           </Label>
         ) : null}
-      </LoadingSkeleton>
+      </MoreInformationColumn>
 
       <StatisticGrid isLoaded={isLoaded}>
         {anime?.score ? (
@@ -130,8 +130,8 @@ export default InformationSection
 
 const Container = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8 gap-6`
 
-const LoadingSkeleton = styled(Skeleton)<{ isLoaded: boolean }>`
-  ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded`}
+const MoreInformationColumn = styled(Skeleton)<{ isLoaded: boolean }>`
+  ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded shadow-lg dark:shadow-none`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 418px;`)}
 `
 
