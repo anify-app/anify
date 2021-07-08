@@ -19,6 +19,7 @@ const SEARCH_QUERY = gql`
         status
         genres
         mainImageBlurred
+        score
       }
       hasNextPage
       page

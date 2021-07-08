@@ -2,17 +2,17 @@ import React from 'react'
 import { format } from 'date-fns'
 import tw, { styled } from 'twin.macro'
 import { Tag, Skeleton } from '@chakra-ui/react'
+import { HiStar } from 'react-icons/hi'
+import { isPresent } from 'utils'
 import SeasonTag from './SeasonTag'
+import StatisticCard from './StatisticCard'
 
-type MoreInformationColumnProps = {
+type InformationSectionProps = {
   isLoaded: boolean
   anime?: Anime | null
 }
 
-const MoreInformationColumn = ({
-  isLoaded,
-  anime,
-}: MoreInformationColumnProps) => {
+const InformationSection = ({ isLoaded, anime }: InformationSectionProps) => {
   return (
     <Container>
       <LoadingSkeleton isLoaded={isLoaded}>
@@ -64,10 +64,9 @@ const MoreInformationColumn = ({
             <Field>Licensors</Field>
             <TagList>
               {anime.licensors.map((licensor, index) => (
-                <React.Fragment key={`licensor-${index}`}>
-                  <Tag size="sm">{licensor}</Tag>
-                  &nbsp;
-                </React.Fragment>
+                <SpacedTag key={`licensor-${index}`} size="sm">
+                  {licensor}
+                </SpacedTag>
               ))}
             </TagList>
           </Label>
@@ -77,10 +76,9 @@ const MoreInformationColumn = ({
             <Field>Producers</Field>
             <TagList>
               {anime.producers.map((producer, index) => (
-                <React.Fragment key={`producer-${index}`}>
-                  <Tag size="sm">{producer}</Tag>
-                  &nbsp;
-                </React.Fragment>
+                <SpacedTag key={`producer-${index}`} size="sm" tw="mr-1">
+                  {producer}
+                </SpacedTag>
               ))}
             </TagList>
           </Label>
@@ -90,31 +88,57 @@ const MoreInformationColumn = ({
             <Field>Studios</Field>
             <TagList>
               {anime.studios.map((studio, index) => (
-                <React.Fragment key={`studio-${index}`}>
-                  <Tag size="sm">{studio}</Tag>
-                  &nbsp;
-                </React.Fragment>
+                <SpacedTag key={`studio-${index}`} size="sm">
+                  {studio}
+                </SpacedTag>
               ))}
             </TagList>
           </Label>
         ) : null}
+
+        {anime?.sources ? (
+          <Label>
+            <Field>References</Field>
+            {anime.sources.filter(isPresent).map((source) => (
+              <ValueLink href={source.url || undefined} key={source.name}>
+                {source?.name}
+              </ValueLink>
+            ))}
+          </Label>
+        ) : null}
       </LoadingSkeleton>
 
-      <Placeholder />
+      <StatisticGrid isLoaded={isLoaded}>
+        {anime?.score ? (
+          <StatisticCard
+            icon={<ScoreIcon />}
+            label="Score"
+            value={
+              <>
+                {anime.score}
+                <ScoreTotal>/10</ScoreTotal>
+              </>
+            }
+          />
+        ) : null}
+      </StatisticGrid>
     </Container>
   )
 }
 
-export default MoreInformationColumn
+export default InformationSection
 
-const Container = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8`
+const Container = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8 gap-6`
 
 const LoadingSkeleton = styled(Skeleton)<{ isLoaded: boolean }>`
   ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 418px;`)}
 `
 
-const Placeholder = tw.div`col-span-1 md:col-span-3 xl:col-span-2`
+const StatisticGrid = styled(Skeleton)<{ isLoaded: boolean }>`
+  ${tw`col-span-1 md:col-span-2 xl:col-span-3`}
+  ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 80px;`)}
+`
 
 const Label = tw.div`leading-5 mb-3`
 
@@ -122,4 +146,12 @@ const Field = tw.p`font-bold text-sm`
 
 const Value = tw.span`text-gray-500 dark:text-gray-400 text-sm`
 
+const ValueLink = tw.a`text-emerald-500 hover:text-emerald-600! dark:text-emerald-400 dark:hover:text-emerald-500! text-sm`
+
 const TagList = tw.div`mt-1 -mb-1 leading-7`
+
+const SpacedTag = tw(Tag)`mr-1`
+
+const ScoreIcon = tw(HiStar)`mr-2 w-6 h-6`
+
+const ScoreTotal = tw.span`text-base opacity-50`

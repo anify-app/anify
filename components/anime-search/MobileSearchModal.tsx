@@ -16,6 +16,7 @@ import tw, { styled } from 'twin.macro'
 import { HiSearch, HiInbox } from 'react-icons/hi'
 import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
+import { HiStar } from 'react-icons/hi'
 
 type MobileSearchModalProps = {
   onClose: () => void
@@ -118,6 +119,13 @@ const MobileSearchModal = ({
                               ) : null}
                             </Badges>
                           </Title>
+                          <Score>
+                            <ScoreIcon />
+                            <p>
+                              {anime.score || '-'}
+                              <ScoreTotal>/10</ScoreTotal>
+                            </p>
+                          </Score>
                           {anime?.genres
                             ? anime.genres
                                 .filter(isPresent)
@@ -194,9 +202,15 @@ const Information = tw.div`ml-4 flex-grow`
 
 const Badges = tw.span``
 
-const Title = tw.div`mb-2 leading-4`
+const Title = tw.div`mb-1 leading-4`
 
 const LoadingPaginationContainer = tw.div`mb-12`
+
+const Score = tw.div`mb-2 flex items-center`
+
+const ScoreIcon = tw(HiStar)`mr-0.5 h-5 w-5`
+
+const ScoreTotal = tw.span`text-xs opacity-50`
 
 const ImageContainer = styled.div`
   width: 56.25px;

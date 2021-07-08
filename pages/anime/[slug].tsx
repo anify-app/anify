@@ -7,7 +7,7 @@ import _ from 'lodash'
 import {
   MainInformation,
   CoverImage,
-  MoreInformationColumn,
+  InformationSection,
 } from 'components/anime-page'
 import { DynamoDB } from 'services/dynamodb'
 
@@ -35,7 +35,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
       <Content>
         <MainInformation isLoaded={isLoaded} anime={anime} />
         <Divider p={4} />
-        <MoreInformationColumn isLoaded={isLoaded} anime={anime} />
+        <InformationSection isLoaded={isLoaded} anime={anime} />
       </Content>
     </Layout>
   )
