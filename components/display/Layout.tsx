@@ -5,19 +5,18 @@ import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { useColorMode } from '@chakra-ui/react'
 import Header from './Header'
 import SideNavigation from './SideNavigation'
+import SEO, { SEOProps } from './SEO'
 
 type LayoutProps = {
   children: React.ReactNode
-  title?: string
-  description?: string
+  seo: SEOProps
   noPadding?: boolean
   shouldFullyCollapse?: boolean
 }
 
 const Layout = ({
   children,
-  title = 'Anime Next App',
-  description = '',
+  seo,
   noPadding = false,
   shouldFullyCollapse = false,
 }: LayoutProps) => {
@@ -27,11 +26,7 @@ const Layout = ({
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO {...seo} />
 
       <Container>
         <Header

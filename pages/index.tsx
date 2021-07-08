@@ -2,7 +2,14 @@ import { Layout } from 'components/display'
 
 const Home = () => {
   return (
-    <Layout title="Home - Anime Next App">
+    <Layout
+      seo={{
+        title: 'Home - Anime Next App',
+        description: `Cutting edge anime platform designed for the average viewer. Oh and it's also 100% open-source.`,
+        image: '',
+        url: '/',
+      }}
+    >
       <p>[ Insert home here ]</p>
     </Layout>
   )

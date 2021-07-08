@@ -22,7 +22,12 @@ const AnimePage = ({ anime }: AnimePageProps) => {
 
   return (
     <Layout
-      title={`${anime?.title || 'Loading'} - Anime Next App`}
+      seo={{
+        title: `${anime?.title || 'Loading'} - Anime Next App`,
+        description: anime?.description || '',
+        url: `/anime/${anime.slug}`,
+        image: anime.mainImage || '',
+      }}
       noPadding
       shouldFullyCollapse
     >
