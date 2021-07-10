@@ -43,9 +43,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
       <Container>
         <HamburgerButton onClick={onHamburgerClick} />
 
-        <LogoContainer>
-          <Logo size="medium" />
-        </LogoContainer>
+        <Logo size="medium" />
 
         <Search />
 
@@ -92,7 +90,7 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
 export default Header
 
 const Container = styled.div`
-  ${tw`relative bg-white dark:bg-black grid py-4 px-6 items-center transition-colors`}
+  ${tw`relative bg-white dark:bg-black grid py-3 px-6 items-center transition-colors`}
   grid-template-columns: auto auto 1fr 1fr;
 
   @media (max-width: 768px) {
@@ -103,8 +101,6 @@ const Container = styled.div`
 const HamburgerButton = tw(
   HiMenu,
 )`h-6 w-6 mr-7 cursor-pointer hover:text-emerald-500 transition-colors`
-
-const LogoContainer = tw.div`text-left`
 
 const Settings = tw.div`justify-self-end`
 

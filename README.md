@@ -1,6 +1,18 @@
-# anify
+<p align="center">
+  <a href="https://www.anify.app">
+    <img alt="anify" src="./public/img/logo.svg" width="120px" />
+  </a>
+</p>
 
-Cutting edge anime platform designed for the average viewer. Oh and it's also 100% open-source.
+<h1 align="center">
+  anify
+</h1>
+
+<p align="center">
+  <strong>
+    Cutting edge anime platform designed for the average viewer. Oh and it's also 100% open-source.
+  </strong>
+</p>
 
 ## 🧪 Technologies
 
