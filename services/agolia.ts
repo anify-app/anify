@@ -42,7 +42,9 @@ export class Agolia extends DataSource {
       nbHits: results.nbHits,
       hitsPerPage: results.hitsPerPage,
       message: results.message,
-      hasNextPage: results.page + 1 !== results.nbPages,
+      hasNextPage:
+        // if total number pages equals 0, then return false, else increment the current pages by 1 and check against total number of pages
+        results.nbPages === 0 ? false : results.page + 1 !== results.nbPages,
     }
   }
 }
