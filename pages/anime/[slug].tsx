@@ -18,22 +18,20 @@ type AnimePageProps = {
 
 const AnimePage = ({ anime }: AnimePageProps) => {
   const { isFallback } = useRouter()
+  const isLoaded = !isFallback
 
-  if (isFallback) {
-    return null
-  }
-
-  if (anime === null) return <p>404</p>
-
-  const isLoaded = anime !== undefined
+  // if done loading and no anime exist, then no anime exist
+  if (isLoaded && anime === null) return <p>404</p>
 
   return (
     <Layout
       seo={{
         title: `${anime?.title || 'Loading'} - Anime Next App`,
-        description: anime?.description || '',
-        url: `/anime/${anime.slug}`,
-        image: anime.mainImage || '',
+        description:
+          anime?.description || 'No description found for this anime.',
+        url: `/anime/${anime?.slug}`,
+        // TODO: add placeholder image
+        image: anime?.mainImage || '',
       }}
       noPadding
       shouldFullyCollapse
