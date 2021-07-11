@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
 import tw, { styled } from 'twin.macro'
 import { Link } from 'elements'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiHome, HiMoon } from 'react-icons/hi'
-import { useRouter } from 'next/router'
 import { useWindowSize } from 'react-use'
 import { Tooltip } from '@chakra-ui/tooltip'
 

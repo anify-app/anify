@@ -179,7 +179,7 @@ const EmptyContainer = tw.div`flex items-center flex-col opacity-50`
 
 const EmptyIcon = tw(HiInbox)`mb-2`
 
-const List = tw.div`flex flex-col pb-10`
+const List = tw.div`flex flex-col pb-10  w-full`
 
 const AnimePost = tw.span`cursor-pointer`
 

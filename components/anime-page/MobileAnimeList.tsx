@@ -93,7 +93,7 @@ export default MobileAnimeList
 
 const Container = tw.div`m-auto w-auto block md:hidden`
 
-const List = tw.div`flex flex-col pb-10`
+const List = tw.div`flex flex-col pb-10 w-full`
 
 const SectionHeader = tw.h2`text-xl mb-4 font-semibold`
 
