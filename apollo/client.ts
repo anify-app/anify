@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache, QueryResult } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/api/graphql',
+  uri: process.env.NEXT_PUBLIC_VERCEL_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/graphql`
+    : 'http://localhost:3000/api/graphql',
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

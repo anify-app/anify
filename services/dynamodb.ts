@@ -5,6 +5,7 @@ import { ScanResponse } from 'dynamoose/dist/DocumentRetriever'
 import { ModelType } from 'dynamoose/dist/General'
 import { Schema } from 'dynamoose/dist/Schema'
 import { DataSource } from 'apollo-datasource'
+import _ from 'lodash'
 
 type AnimeTableAttributes = { id: string; entity: string }
 
@@ -172,6 +173,25 @@ export class DynamoDB extends DataSource {
     } catch (error) {
       throw error
     }
+  }
+
+  async getTop500Anime() {
+    const animes: ScanResponse<AnimeEntity> = await this.animeRepository
+      .scan('slug')
+      .exists()
+      .filter('score')
+      .exists()
+      .all(100)
+      .exec()
+
+    const top500Animes = _.reverse(
+      _.sortBy(
+        animes.map((anime) => this.animeMapper(anime)),
+        ['score'],
+      ),
+    ).slice(0, 499)
+
+    return top500Animes
   }
   async getAnime(args: QueryGetAnimeArgs) {
     try {

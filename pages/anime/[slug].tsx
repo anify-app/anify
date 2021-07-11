@@ -79,20 +79,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const dynamo = new DynamoDB()
 
-  const animes = await dynamo.getAllAnime({
-    first: null,
-    last: null,
-    skip: null,
-  })
+  const animes = await dynamo.getTop500Anime()
 
-  const paths = animes
-    // TODO: remove this once our database data is good
-    .filter((item) => item.slug)
-    .map((item) => ({
-      params: {
-        slug: item.slug,
-      },
-    }))
+  const paths = animes.map((item) => ({
+    params: {
+      slug: item.slug,
+    },
+  }))
 
   return { paths, fallback: true }
 }
