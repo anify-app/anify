@@ -10,26 +10,21 @@ import { Tooltip } from '@chakra-ui/tooltip'
 type SideNavigationProps = {
   isExpanded: boolean
   onClose: () => void
+  currentPath: string
   shouldFullyCollapse?: boolean
 }
 
 const SideNavigation = ({
   isExpanded,
   onClose,
+  currentPath,
   shouldFullyCollapse,
 }: SideNavigationProps) => {
-  const router = useRouter()
   const { width } = useWindowSize()
-  const [mounted, setMounted] = useState(false)
 
   const isMobile = width < 768
   const collapsedWidth = isMobile || shouldFullyCollapse ? 0 : 70
   const expandedWidth = isMobile ? '90%' : 300
-
-  // don't render dependent theme UI until mounted on the client
-  useEffect(() => setMounted(true), [])
-
-  if (!mounted) return null
 
   return (
     <>
@@ -53,7 +48,7 @@ const SideNavigation = ({
           >
             {/* span needed here to pass Tooltip children ref */}
             <span>
-              <NavigationItem href="/" active={router.pathname === '/'}>
+              <NavigationItem href="/" active={currentPath === '/'}>
                 <HomeIcon />
 
                 <AnimatePresence>
@@ -81,7 +76,7 @@ const SideNavigation = ({
             <span>
               <NavigationItem
                 href="/anime"
-                active={router.pathname.startsWith('/anime')}
+                active={currentPath.startsWith('/anime')}
               >
                 <AnimeIcon />
                 <AnimatePresence>

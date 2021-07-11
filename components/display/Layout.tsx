@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import tw, { styled } from 'twin.macro'
-import Head from 'next/head'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { useColorMode } from '@chakra-ui/react'
 import Header from './Header'
@@ -40,6 +39,7 @@ const Layout = ({
             isExpanded={isSideNavigationExpanded}
             onClose={() => setIsSideNavigationExpanded(false)}
             shouldFullyCollapse={shouldFullyCollapse}
+            currentPath={seo.url}
           />
           <Content
             className={
