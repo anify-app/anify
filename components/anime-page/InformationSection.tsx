@@ -76,7 +76,7 @@ const InformationSection = ({ isLoaded, anime }: InformationSectionProps) => {
             <Field>Producers</Field>
             <TagList>
               {anime.producers.map((producer, index) => (
-                <SpacedTag key={`producer-${index}`} size="sm" tw="mr-1">
+                <SpacedTag key={`producer-${index}`} size="sm">
                   {producer}
                 </SpacedTag>
               ))}
@@ -148,9 +148,9 @@ const Value = tw.span`text-gray-500 dark:text-gray-400 text-sm`
 
 const ValueLink = tw.a`text-emerald-500 hover:text-emerald-600! dark:text-emerald-400 dark:hover:text-emerald-500! text-sm`
 
-const TagList = tw.div`mt-1 -mb-1 leading-7`
+const TagList = tw.div`mt-1 -mb-1 leading-6`
 
-const SpacedTag = tw(Tag)`mr-1`
+const SpacedTag = tw(Tag)`mr-0.5`
 
 const ScoreIcon = tw(HiStar)`mr-2 w-6 h-6`
 

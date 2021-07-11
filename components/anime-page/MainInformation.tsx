@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import tw, { styled } from 'twin.macro'
 import { motion } from 'framer-motion'
 import { isPresent } from 'utils'
@@ -6,6 +6,7 @@ import { Skeleton } from '@chakra-ui/react'
 import _ from 'lodash'
 import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
 import { AnimePoster } from 'components/anime'
+import Description from './Description'
 
 type MainInformationProps = {
   isLoaded: boolean
@@ -13,9 +14,6 @@ type MainInformationProps = {
 }
 
 const MainInformation = ({ isLoaded, anime }: MainInformationProps) => {
-  const [isDescriptionExpanded, setIsDescriptionExpanded] =
-    useState<boolean>(false)
-
   return (
     <Container>
       <MainImageSkeleton
@@ -54,36 +52,7 @@ const MainInformation = ({ isLoaded, anime }: MainInformationProps) => {
             : null}
         </GenreSkeleton>
 
-        <DescriptionSkeleton isLoaded={isLoaded}>
-          <p>
-            {(anime?.description
-              ? _.truncate(anime.description, {
-                  length: isDescriptionExpanded ? Infinity : 500,
-                  // split the description into an array of paragraphs
-                }).split('\n')
-              : ['']
-            )
-              // use line breaks between paragraphs
-              .map((text, index) => (
-                <React.Fragment key={`description-${index}`}>
-                  {text}
-                  <br />
-                </React.Fragment>
-              ))}
-          </p>
-        </DescriptionSkeleton>
-
-        {!isDescriptionExpanded && isLoaded ? (
-          <ExpandControls
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: isDescriptionExpanded ? 0 : 1 }}
-            transition={{ duration: 0.1 }}
-          >
-            <ExpandText onClick={() => setIsDescriptionExpanded(true)}>
-              Read More
-            </ExpandText>
-          </ExpandControls>
-        ) : null}
+        <Description isLoaded={isLoaded} anime={anime} />
       </TitleDescriptionContainer>
     </Container>
   )
