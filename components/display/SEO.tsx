@@ -15,7 +15,7 @@ const SEO = ({ title, url, description, image }: SEOProps) => {
       <link rel="icon" href="/favicon.ico" />
       <link
         rel="canonical"
-        href={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}${url}`}
+        href={`https://${process.env.NEXT_PUBLIC_PRODUCTION_URL}${url}`}
       />
 
       {/* General */}
@@ -29,7 +29,7 @@ const SEO = ({ title, url, description, image }: SEOProps) => {
       {/* Open Graph */}
       <meta
         property="og:url"
-        content={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}${url}`}
+        content={`https://${process.env.NEXT_PUBLIC_PRODUCTION_URL}${url}`}
       />
       <meta
         property="og:type"
