@@ -26,7 +26,7 @@ const AnimePage = ({ anime }: AnimePageProps) => {
   return (
     <Layout
       seo={{
-        title: `${anime?.title || 'Loading'} - Anime Next App`,
+        title: `${anime?.title || 'Loading'} – Anify`,
         description:
           anime?.description || 'No description found for this anime.',
         url: `/anime/${anime?.slug}`,

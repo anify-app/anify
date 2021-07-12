@@ -18,7 +18,7 @@ const Anime = () => {
   return (
     <Layout
       seo={{
-        title: 'Anime - Anime Next App',
+        title: 'Anime – Anify',
         description: 'List of all animes sorted by rating.',
         image: '',
         url: '/anime',
