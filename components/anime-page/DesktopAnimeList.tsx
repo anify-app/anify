@@ -1,12 +1,12 @@
 import { isPresent } from 'utils'
-import { Tooltip, Spinner } from '@chakra-ui/react'
+import { Tooltip, useColorMode } from '@chakra-ui/react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { AnimeTooltipLabel } from 'components/anime-search'
 import tw, { styled } from 'twin.macro'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { AnimePoster } from 'components/anime'
+import { Spinner } from 'elements'
 
 type DesktopAnimeListProps = {
   searchQuery: QueryResult<
@@ -62,7 +62,7 @@ const DesktopAnimeList = ({ searchQuery }: DesktopAnimeListProps) => {
       {/* show loading icon when paginating more */}
       {searchQuery.loading || searchQuery.data?.searchAnime.hasNextPage ? (
         <LoadingPaginationContainer ref={sentryRef}>
-          <Spinner size="lg" color="green.500" />
+          <Spinner />
         </LoadingPaginationContainer>
       ) : null}
     </Container>
@@ -73,14 +73,14 @@ export default DesktopAnimeList
 
 const Container = tw.div`m-auto w-auto hidden md:block`
 
-const List = tw.div`flex flex-wrap pb-10`
+const List = tw.div`flex flex-wrap`
 
 const AnimePost = styled.div`
-  ${tw`cursor-pointer mr-4 mb-8 text-gray-700 dark:text-gray-300 hover:text-emerald-500 hover:dark:text-emerald-200 transition-colors`}
+  ${tw`cursor-pointer mr-4 mb-8 text-gray-700 dark:text-gray-300 hover:color[var(--primary-color)] dark:hover:color[var(--primary-color-dark)] transition-colors`}
   width: 225px;
 `
 
-const LoadingPaginationContainer = tw.div`text-center mb-14`
+const LoadingPaginationContainer = tw.div`text-center mb-14 mt-12`
 
 const SectionHeader = tw.h2`text-xl mb-4 font-semibold`
 

@@ -131,12 +131,12 @@ export default InformationSection
 const Container = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 mt-8 gap-6`
 
 const MoreInformationColumn = styled(Skeleton)<{ isLoaded: boolean }>`
-  ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded shadow-lg dark:shadow-none`}
+  ${tw`bg-white dark:bg-gray-800 px-4 pt-4 pb-1 rounded shadow-lg dark:shadow-none order-2 md:order-1`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 418px;`)}
 `
 
 const StatisticGrid = styled(Skeleton)<{ isLoaded: boolean }>`
-  ${tw`col-span-1 md:col-span-2 xl:col-span-3`}
+  ${tw`col-span-1 md:col-span-2 xl:col-span-3 order-1 md:order-2`}
   ${({ isLoaded }) => (isLoaded ? tw`h-auto` : `height: 80px;`)}
 `
 
@@ -146,7 +146,7 @@ const Field = tw.p`font-bold text-sm`
 
 const Value = tw.span`text-gray-500 dark:text-gray-400 text-sm`
 
-const ValueLink = tw.a`text-emerald-500 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-300 text-sm`
+const ValueLink = tw.a`color[var(--primary-color)] hover:color[var(--primary-color-hover)] dark:color[var(--primary-color-dark)] dark:hover:color[var(--primary-color-dark-hover)]  text-sm`
 
 const TagList = tw.div`mt-1 -mb-1 leading-6`
 

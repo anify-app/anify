@@ -4,7 +4,6 @@ import Link from 'next/link'
 import {
   InputLeftElement,
   InputGroup,
-  Spinner,
   Input,
   useColorMode,
   Divider,
@@ -17,6 +16,7 @@ import { HiSearch, HiInbox } from 'react-icons/hi'
 import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { HiStar } from 'react-icons/hi'
+import { Spinner } from 'elements'
 
 type MobileSearchModalProps = {
   onClose: () => void
@@ -146,7 +146,7 @@ const MobileSearchModal = ({
           {/* show loading icon when paginating more */}
           {searchQuery.loading || searchQuery.data?.searchAnime.hasNextPage ? (
             <LoadingPaginationContainer ref={sentryRef}>
-              <Spinner size="lg" color="green.500" />
+              <Spinner />
             </LoadingPaginationContainer>
           ) : null}
         </ModalContent>
@@ -181,7 +181,7 @@ const EmptyContainer = tw.div`flex items-center flex-col opacity-50`
 
 const EmptyIcon = tw(HiInbox)`mb-2`
 
-const List = tw.div`flex flex-col pb-10  w-full`
+const List = tw.div`flex flex-col w-full`
 
 const AnimePost = tw.span`cursor-pointer`
 
@@ -193,7 +193,7 @@ const Badges = tw.div``
 
 const Title = tw.h2`leading-5! align-middle`
 
-const LoadingPaginationContainer = tw.div`text-center pb-12`
+const LoadingPaginationContainer = tw.div`text-center pb-12 mt-12`
 
 const Score = tw.div`flex items-center`
 

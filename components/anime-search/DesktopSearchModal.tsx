@@ -5,7 +5,6 @@ import {
   Tooltip,
   InputLeftElement,
   InputGroup,
-  Spinner,
   Input,
   useColorMode,
 } from '@chakra-ui/react'
@@ -16,6 +15,7 @@ import tw from 'twin.macro'
 import { HiSearch, HiInbox } from 'react-icons/hi'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { AnimePoster } from 'components/anime'
+import { Spinner } from 'elements'
 
 type DesktopSearchModalProps = {
   onClose: () => void
@@ -122,7 +122,7 @@ const DesktopSearchModal = ({
           {/* show loading icon when paginating more */}
           {searchQuery.loading || searchQuery.data?.searchAnime.hasNextPage ? (
             <LoadingPaginationContainer ref={sentryRef}>
-              <Spinner size="lg" color="green.500" />
+              <Spinner />
             </LoadingPaginationContainer>
           ) : null}
         </ModalContent>
@@ -157,8 +157,8 @@ const EmptyContainer = tw.div`flex items-center flex-col opacity-50`
 
 const EmptyIcon = tw(HiInbox)`mb-2`
 
-const LoadingPaginationContainer = tw.div`mb-7`
+const LoadingPaginationContainer = tw.div`mb-7 mt-10`
 
-const Grid = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 pb-10`
+const Grid = tw.div`grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8`
 
 const AnimePost = tw.span`cursor-pointer`

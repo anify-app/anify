@@ -141,7 +141,9 @@ const NavigationItem = styled(Link)<{ active: boolean }>`
   
   svg {
     ${({ active }) =>
-      active ? tw`text-emerald-500 dark:text-emerald-200` : tw``}
+      active
+        ? tw`color[var(--primary-color)] dark:color[var(--primary-color-dark)]`
+        : tw``}
   }
 `
 

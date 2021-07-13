@@ -47,6 +47,6 @@ const Title = tw.h1`text-7xl font-black`
 
 const Description = tw.h2`mt-4 mb-6 text-xl opacity-90`
 
-const Highlighted = tw.span`text-emerald-500 dark:text-emerald-200`
+const Highlighted = tw.span`color[var(--primary-color)] dark:color[var(--primary-color-dark)]`
 
 const Buttons = tw.div`flex justify-center items-center gap-2 w-full md:w-28`

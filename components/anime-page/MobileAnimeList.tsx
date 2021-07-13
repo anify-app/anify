@@ -1,12 +1,13 @@
 import { isPresent } from 'utils'
-import { Spinner, Divider } from '@chakra-ui/react'
+import { Divider } from '@chakra-ui/react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
+import { TypeBadge, StatusBadge } from 'components/anime'
 import tw, { styled } from 'twin.macro'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { HiStar } from 'react-icons/hi'
+import { Spinner } from 'elements'
 
 type MobileAnimeListProps = {
   searchQuery: QueryResult<
@@ -82,7 +83,7 @@ const MobileAnimeList = ({ searchQuery }: MobileAnimeListProps) => {
       {/* show loading icon when paginating more */}
       {searchQuery.loading || searchQuery.data?.searchAnime.hasNextPage ? (
         <LoadingPaginationContainer ref={sentryRef}>
-          <Spinner size="lg" color="green.500" />
+          <Spinner />
         </LoadingPaginationContainer>
       ) : null}
     </Container>
@@ -93,7 +94,7 @@ export default MobileAnimeList
 
 const Container = tw.div`m-auto w-auto block md:hidden`
 
-const List = tw.div`flex flex-col pb-10 w-full`
+const List = tw.div`flex flex-col w-full`
 
 const SectionHeader = tw.h2`text-xl mb-4 font-semibold`
 
@@ -107,7 +108,7 @@ const Badges = tw.div``
 
 const Title = tw.h2`leading-5! align-middle`
 
-const LoadingPaginationContainer = tw.div`text-center mb-12`
+const LoadingPaginationContainer = tw.div`text-center mb-12 mt-12`
 
 const Score = tw.div`flex items-center`
 

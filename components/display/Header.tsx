@@ -100,13 +100,13 @@ const Container = styled.div`
 
 const HamburgerButton = tw(
   HiMenu,
-)`h-6 w-6 mr-7 cursor-pointer hover:text-emerald-500 hover:dark:text-emerald-200 transition-colors`
+)`h-6 w-6 mr-7 cursor-pointer hover:color[var(--primary-color)] dark:hover:color[var(--primary-color-dark)] transition-colors`
 
 const Settings = tw.div`justify-self-end`
 
 const SettingsButton = tw(
   HiCog,
-)`h-6 w-6 cursor-pointer hover:text-emerald-500 hover:dark:text-emerald-200 transition-colors`
+)`h-6 w-6 cursor-pointer hover:color[var(--primary-color)] dark:hover:color[var(--primary-color-dark)] transition-colors`
 
 const SettingsMenu = tw(
   motion.div,
