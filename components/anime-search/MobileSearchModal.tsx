@@ -3,11 +3,10 @@ import { isPresent } from 'utils'
 import Link from 'next/link'
 import { InputLeftElement, InputGroup, Input, Divider } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { OperationVariables, QueryResult } from '@apollo/client'
 import tw, { styled } from 'twin.macro'
 import { HiSearch, HiInbox } from 'react-icons/hi'
-import { TypeBadge, StatusBadge, GenreTag } from 'components/anime'
+import { TypeBadge, StatusBadge } from 'components/anime'
 import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { HiStar } from 'react-icons/hi'
 import { Spinner } from 'elements'
@@ -50,14 +49,7 @@ const MobileSearchModal = ({
       transition={{ duration: 0.1 }}
       onClick={onClose}
     >
-      <Scroll
-        className={
-          resolvedTheme === 'dark' ? 'os-theme-light' : 'os-theme-dark'
-        }
-        options={{
-          scrollbars: { autoHide: 'scroll' },
-        }}
-      >
+      <Scroll>
         <ModalContent>
           <SearchInputGroup>
             <InputLeftElement pointerEvents="none">
@@ -101,7 +93,7 @@ const MobileSearchModal = ({
                             alt={`${anime?.title} poster.`}
                             placeholder="blur"
                             blurDataURL={anime.mainImageBlurred}
-                            priority
+                            unoptimized
                           />
                         </ImageContainer>
                         <Information>
@@ -158,9 +150,7 @@ const Modal = tw(
   motion.div,
 )`absolute block md:hidden top-0 left-0 bg-white dark:bg-black bg-opacity-100! z-40`
 
-const Scroll = tw(
-  OverlayScrollbarsComponent,
-)`pt-20 px-8 w-screen h-screen overflow-hidden!`
+const Scroll = tw.div`pt-20 px-8 w-screen h-screen overflow-y-auto`
 
 const ModalContent = tw.div`flex flex-col items-center`
 

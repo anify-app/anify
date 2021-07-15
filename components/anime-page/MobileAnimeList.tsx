@@ -51,7 +51,7 @@ const MobileAnimeList = ({ searchQuery }: MobileAnimeListProps) => {
                       alt={`${anime?.title} poster.`}
                       placeholder="blur"
                       blurDataURL={anime.mainImageBlurred}
-                      priority
+                      unoptimized
                     />
                   </ImageContainer>
                   <Information>

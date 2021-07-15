@@ -1,14 +1,12 @@
 import React from 'react'
 import tw from 'twin.macro'
 import { Button } from '@chakra-ui/react'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 
 type CallToActionProps = {
-  // we'll get this implicitly from Layout 😎
-  scrollBarRef?: React.RefObject<OverlayScrollbarsComponent>
+  homeDividerRef: React.RefObject<HTMLHRElement>
 }
 
-const CallToAction = ({ scrollBarRef }: CallToActionProps) => {
+const CallToAction = ({ homeDividerRef }: CallToActionProps) => {
   return (
     <Container>
       <Content>
@@ -25,8 +23,8 @@ const CallToAction = ({ scrollBarRef }: CallToActionProps) => {
             colorScheme="green"
             isFullWidth
             onClick={() => {
-              const el = document.getElementById('home-divider')
-              if (el) scrollBarRef?.current?.osInstance()?.scroll({ el }, 500)
+              if (homeDividerRef.current)
+                homeDividerRef.current.scrollIntoView({ behavior: 'smooth' })
             }}
           >
             Explore

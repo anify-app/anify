@@ -10,11 +10,17 @@ import { Search } from 'components/anime-search'
 
 type HeaderTypes = {
   onHamburgerClick: () => void
+  isSearchModalOpen: boolean
+  onSearchModalOpen: (val: boolean) => void
 }
 
-const Header = ({ onHamburgerClick }: HeaderTypes) => {
+const Header = ({
+  onHamburgerClick,
+  isSearchModalOpen,
+  onSearchModalOpen,
+}: HeaderTypes) => {
   const settingsMenuRef = useRef(null)
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(typeof document !== 'undefined')
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false)
   const { resolvedTheme, setTheme } = useTheme()
   const { colorMode, toggleColorMode } = useColorMode()
@@ -43,12 +49,12 @@ const Header = ({ onHamburgerClick }: HeaderTypes) => {
       <Container>
         <HamburgerButton onClick={onHamburgerClick} />
 
-        {/* wait to render this on the client to prevent undefined theme */}
-        {typeof window === 'undefined' ? null : (
-          <Logo resolvedTheme={resolvedTheme} />
-        )}
+        <Logo resolvedTheme={resolvedTheme} mounted={mounted} />
 
-        <Search />
+        <Search
+          isSearchModalOpen={isSearchModalOpen}
+          onSearchModalOpen={onSearchModalOpen}
+        />
 
         <Settings ref={settingsMenuRef}>
           <SettingsButton

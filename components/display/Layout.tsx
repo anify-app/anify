@@ -19,11 +19,13 @@ const Layout = ({
   noPadding = false,
   shouldFullyCollapse = false,
 }: LayoutProps) => {
-  const scrollBarRef = useRef<OverlayScrollbarsComponent>(null)
+  const [isOverlayScrollbarInitialized, setIsOverlayScrollbarInitialized] =
+    useState(false)
   const { resolvedTheme } = useTheme()
   const [isSideNavigationExpanded, setIsSideNavigationExpanded] =
     useState<boolean>(false)
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(typeof document !== 'undefined')
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState<boolean>(false)
 
   useEffect(() => setMounted(true), [])
 
@@ -36,9 +38,14 @@ const Layout = ({
           onHamburgerClick={() =>
             setIsSideNavigationExpanded(!isSideNavigationExpanded)
           }
+          isSearchModalOpen={isSearchModalOpen}
+          onSearchModalOpen={(val: boolean) => setIsSearchModalOpen(val)}
         />
 
-        <ContentContainer>
+        <ContentContainer
+          $noPadding={noPadding || isOverlayScrollbarInitialized}
+          $noScroll={isSearchModalOpen}
+        >
           <SideNavigation
             isExpanded={isSideNavigationExpanded}
             onClose={() => setIsSideNavigationExpanded(false)}
@@ -53,17 +60,15 @@ const Layout = ({
                 resolvedTheme === 'dark' ? 'os-theme-light' : 'os-theme-dark'
               }
               $noPadding={noPadding}
-              options={{ scrollbars: { autoHide: 'scroll' } }}
-              ref={scrollBarRef}
+              options={{
+                scrollbars: { autoHide: 'scroll' },
+                nativeScrollbarsOverlaid: { initialize: false },
+                callbacks: {
+                  onInitialized: () => setIsOverlayScrollbarInitialized(true),
+                },
+              }}
             >
-              {/* give all children access to the scrollBarRef just incase 🤗 */}
-              {React.Children.map(children, (child) => {
-                return React.cloneElement(
-                  child,
-                  { scrollBarRef, ...child.props },
-                  child.props?.children || null,
-                )
-              })}
+              {children}
             </OverlayScrollbar>
           ) : null}
         </ContentContainer>
@@ -74,15 +79,23 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`flex flex-col h-screen overflow-hidden`
+const Container = tw.div`flex flex-col h-screen`
 
-const ContentContainer = tw.div`relative flex flex-grow`
+const ContentContainer = styled.div<{
+  $noPadding: boolean
+  $noScroll: boolean
+}>`
+  ${tw`relative flex flex-grow h-full`}
+  ${({ $noPadding }) => !$noPadding && tw`px-6 md:px-14 py-8 md:py-10`}
+  ${({ $noScroll }) =>
+    $noScroll ? tw`overflow-y-hidden` : tw`overflow-y-auto`}
+`
 
 const OverlayScrollbar = styled(OverlayScrollbarsComponent)<{
   $noPadding: boolean
 }>`
   ${({ $noPadding }) => [
-    tw`relative h-full flex-grow bg-gray-50 dark:bg-gray-900 transition-colors overflow-hidden w-screen`,
+    tw`relative flex-grow bg-gray-50 dark:bg-gray-900 transition-colors overflow-hidden w-screen`,
     !$noPadding && tw`px-6 md:px-14 py-8 md:py-10`,
   ]}
 `

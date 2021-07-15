@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import { SEARCH_ANIME } from 'gql'
 import { Layout } from 'components/display'
@@ -17,6 +18,7 @@ const Home = () => {
       },
     },
   )
+  const homeDividerRef = useRef<HTMLHRElement>(null)
 
   return (
     <Layout
@@ -28,8 +30,8 @@ const Home = () => {
       }}
       shouldFullyCollapse
     >
-      <CallToAction />
-      <SectionDiver id="home-divider" />
+      <CallToAction homeDividerRef={homeDividerRef} />
+      <SectionDivider ref={homeDividerRef} />
       <DesktopAnimeList searchQuery={searchQuery} />
       <MobileAnimeList searchQuery={searchQuery} />
     </Layout>
@@ -38,7 +40,7 @@ const Home = () => {
 
 export default Home
 
-const SectionDiver = styled(Divider)`
+const SectionDivider = styled(Divider)`
   margin-top: 40px;
   ${tw`mb-4 md:mb-12`}
 `

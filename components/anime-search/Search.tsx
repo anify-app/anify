@@ -9,7 +9,12 @@ import { SEARCH_ANIME } from 'gql'
 import DesktopSearchModal from './DesktopSearchModal'
 import MobileSearchModal from './MobileSearchModal'
 
-const Search = () => {
+type SearchProps = {
+  isSearchModalOpen: boolean
+  onSearchModalOpen: (val: boolean) => void
+}
+
+const Search = ({ isSearchModalOpen, onSearchModalOpen }: SearchProps) => {
   const [clientSearchTerm, setClientSearchTerm] = useState('')
   const [apolloSearchTerm, setApolloSearchTerm] = useState('')
   const searchQuery = useQuery<{ searchAnime: Query['searchAnime'] }>(
@@ -23,7 +28,6 @@ const Search = () => {
       skip: apolloSearchTerm === '',
     },
   )
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   useDebounce(
@@ -39,8 +43,8 @@ const Search = () => {
     searchInputRef.current?.focus()
 
     // reset searchTerm when modal is closed
-    if (!isModalOpen) setClientSearchTerm('')
-  }, [isModalOpen])
+    if (!isSearchModalOpen) setClientSearchTerm('')
+  }, [isSearchModalOpen])
 
   const onPaginate = () =>
     searchQuery.fetchMore({
@@ -53,7 +57,7 @@ const Search = () => {
     <>
       <Container
         onClick={() => {
-          setIsModalOpen(true)
+          onSearchModalOpen(true)
         }}
       >
         <SectionDivider orientation="vertical" height={9} />
@@ -61,10 +65,10 @@ const Search = () => {
         <SearchButtonText>&nbsp; Search anime</SearchButtonText>
       </Container>
       <AnimatePresence>
-        {isModalOpen ? (
+        {isSearchModalOpen ? (
           <>
             <MobileSearchModal
-              onClose={() => setIsModalOpen(false)}
+              onClose={() => onSearchModalOpen(false)}
               searchTerm={clientSearchTerm}
               onSearchTermChange={(v) => setClientSearchTerm(v)}
               searchQuery={searchQuery}
@@ -72,7 +76,7 @@ const Search = () => {
               onPaginate={onPaginate}
             />
             <DesktopSearchModal
-              onClose={() => setIsModalOpen(false)}
+              onClose={() => onSearchModalOpen(false)}
               searchTerm={clientSearchTerm}
               onSearchTermChange={(v) => setClientSearchTerm(v)}
               searchQuery={searchQuery}
