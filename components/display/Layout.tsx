@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import tw, { styled } from 'twin.macro'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { useTheme } from 'next-themes'
+import Div100vh from 'react-div-100vh'
 import Header from './Header'
 import SideNavigation from './SideNavigation'
 import SEO, { SEOProps } from './SEO'
@@ -79,7 +80,8 @@ const Layout = ({
 
 export default Layout
 
-const Container = tw.div`flex flex-col h-screen`
+// Div100vh library required to have correct behavior on mobile safari
+const Container = tw(Div100vh)`flex flex-col`
 
 const ContentContainer = styled.div<{
   $noPadding: boolean

@@ -11,6 +11,7 @@ import useInfiniteScroll from 'react-infinite-scroll-hook'
 import { HiStar } from 'react-icons/hi'
 import { Spinner } from 'elements'
 import { useTheme } from 'next-themes'
+import Div100vh from 'react-div-100vh'
 
 type MobileSearchModalProps = {
   onClose: () => void
@@ -150,7 +151,8 @@ const Modal = tw(
   motion.div,
 )`absolute block md:hidden top-0 left-0 bg-white dark:bg-black bg-opacity-100! z-40`
 
-const Scroll = tw.div`pt-20 px-8 w-screen h-screen overflow-y-auto`
+// Div100vh library required to have correct behavior on mobile safari
+const Scroll = tw(Div100vh)`pt-20 px-8 w-screen overflow-y-auto`
 
 const ModalContent = tw.div`flex flex-col items-center`
 

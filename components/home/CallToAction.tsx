@@ -39,7 +39,7 @@ export default CallToAction
 
 const Container = tw.div`flex flex-col items-center justify-center text-center h-full`
 
-const Content = tw.div`flex flex-col items-center max-w-xl pb-16`
+const Content = tw.div`flex flex-col items-center max-w-xl`
 
 const Title = tw.h1`text-7xl font-black`
 

@@ -34,6 +34,7 @@
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.2",
     "react": "17.0.2",
+    "react-div-100vh": "^0.6.0",
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
     "react-infinite-scroll-hook": "^4.0.1",
