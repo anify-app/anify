@@ -23,7 +23,6 @@ type MobileSearchModalProps = {
     },
     OperationVariables
   >
-  searchInputRef: React.RefObject<HTMLInputElement>
   onPaginate: () => void
 }
 
@@ -32,7 +31,6 @@ const MobileSearchModal = ({
   searchTerm: clientSearchTerm,
   onSearchTermChange,
   searchQuery,
-  searchInputRef,
   onPaginate,
 }: MobileSearchModalProps) => {
   const { resolvedTheme } = useTheme()
@@ -60,7 +58,6 @@ const MobileSearchModal = ({
               onClick={(e) => e.stopPropagation()}
               size="lg"
               placeholder="Search anime"
-              ref={searchInputRef}
               value={clientSearchTerm}
               onChange={(e) => onSearchTermChange(e.target.value)}
               focusBorderColor={
@@ -69,6 +66,7 @@ const MobileSearchModal = ({
               variant="flushed"
               textColor={resolvedTheme === 'dark' ? 'gray.700' : 'gray.400'}
               borderColor={resolvedTheme === 'dark' ? 'gray.700' : 'gray.400'}
+              autoFocus
             />
           </SearchInputGroup>
           <List>

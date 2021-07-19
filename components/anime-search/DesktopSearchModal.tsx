@@ -22,7 +22,6 @@ type DesktopSearchModalProps = {
     },
     OperationVariables
   >
-  searchInputRef: React.RefObject<HTMLInputElement>
   onPaginate: () => void
 }
 
@@ -31,7 +30,6 @@ const DesktopSearchModal = ({
   searchTerm: clientSearchTerm,
   onSearchTermChange,
   searchQuery,
-  searchInputRef,
   onPaginate,
 }: DesktopSearchModalProps) => {
   const { resolvedTheme } = useTheme()
@@ -66,7 +64,6 @@ const DesktopSearchModal = ({
               onClick={(e) => e.stopPropagation()}
               size="lg"
               placeholder="Search anime"
-              ref={searchInputRef}
               value={clientSearchTerm}
               onChange={(e) => onSearchTermChange(e.target.value)}
               focusBorderColor={
@@ -75,6 +72,7 @@ const DesktopSearchModal = ({
               variant="flushed"
               textColor={resolvedTheme === 'dark' ? 'gray.700' : 'gray.400'}
               borderColor={resolvedTheme === 'dark' ? 'gray.700' : 'gray.400'}
+              autoFocus
             />
           </SearchInputGroup>
           <Grid>

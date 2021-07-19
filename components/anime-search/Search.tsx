@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import tw from 'twin.macro'
 import { HiSearch } from 'react-icons/hi'
 import { Divider } from '@chakra-ui/react'
@@ -28,7 +28,6 @@ const Search = ({ isSearchModalOpen, onSearchModalOpen }: SearchProps) => {
       skip: apolloSearchTerm === '',
     },
   )
-  const searchInputRef = useRef<HTMLInputElement>(null)
 
   useDebounce(
     () => {
@@ -38,11 +37,8 @@ const Search = ({ isSearchModalOpen, onSearchModalOpen }: SearchProps) => {
     [clientSearchTerm],
   )
 
-  // focus the text input when the modal opens
+  // reset searchTerm when modal is closed
   useEffect(() => {
-    searchInputRef.current?.focus()
-
-    // reset searchTerm when modal is closed
     if (!isSearchModalOpen) setClientSearchTerm('')
   }, [isSearchModalOpen])
 
@@ -72,7 +68,6 @@ const Search = ({ isSearchModalOpen, onSearchModalOpen }: SearchProps) => {
               searchTerm={clientSearchTerm}
               onSearchTermChange={(v) => setClientSearchTerm(v)}
               searchQuery={searchQuery}
-              searchInputRef={searchInputRef}
               onPaginate={onPaginate}
             />
             <DesktopSearchModal
@@ -80,7 +75,6 @@ const Search = ({ isSearchModalOpen, onSearchModalOpen }: SearchProps) => {
               searchTerm={clientSearchTerm}
               onSearchTermChange={(v) => setClientSearchTerm(v)}
               searchQuery={searchQuery}
-              searchInputRef={searchInputRef}
               onPaginate={onPaginate}
             />
           </>
